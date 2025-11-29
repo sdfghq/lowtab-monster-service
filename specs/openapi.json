@@ -1,0 +1,249 @@
+{
+  "x-generator": "NSwag v14.6.2.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "NSwag.AspNetCore.Launcher 1.0.0 | Development",
+    "description": "OpenAPI documentation for all API versions",
+    "version": "All Versions"
+  },
+  "paths": {
+    "/internal/v1/weatherforecast": {
+      "post": {
+        "tags": [
+          "WeatherForecast internal methods"
+        ],
+        "summary": "Создать новый объект",
+        "operationId": "PostInternalV1Weatherforecast",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWeatherForecastRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWeatherForecastResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/v1/weatherforecast/{id}": {
+      "get": {
+        "tags": [
+          "WeatherForecast internal methods"
+        ],
+        "summary": "Получить объект по идентификатору",
+        "operationId": "GetInternalV1Weatherforecast",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetWeatherForecastResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateWeatherForecastResponse": {
+        "type": "object",
+        "description": "Ответ при создании объекта WeatherForecastBase>\n            ",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Идентификатор созданного объекта\n            ",
+            "format": "guid"
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": {
+          "nullable": true
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateWeatherForecastRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WeatherForecastBase"
+          },
+          {
+            "type": "object",
+            "description": "Запрос создания объекта WeatherForecastBase\n            ",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "WeatherForecastBase": {
+        "type": "object",
+        "description": "Объект с прогнозом погоды\n            ",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Дата\n            ",
+            "format": "date"
+          },
+          "temperatureC": {
+            "type": "integer",
+            "description": "Температура по Цельсию\n            ",
+            "format": "int32"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Дополнительная информация\n            ",
+            "nullable": true
+          }
+        }
+      },
+      "GetWeatherForecastResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WeatherForecast"
+          },
+          {
+            "type": "object",
+            "description": "Ответ на запрос получения информации об объекте WeatherForecast\n            ",
+            "additionalProperties": false,
+            "properties": {
+              "createdAt": {
+                "type": "string",
+                "description": "Дата создания\n            ",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Дата обновления\n            ",
+                "format": "date-time"
+              }
+            }
+          }
+        ]
+      },
+      "WeatherForecast": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WeatherForecastBase"
+          },
+          {
+            "type": "object",
+            "description": "Объект с прогнозом погоды\n            ",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Идентификатор\n            ",
+                "format": "guid"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

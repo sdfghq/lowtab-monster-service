@@ -1,0 +1,34 @@
+{
+  "runtime": "$(Runtime)",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "$(SpecUrl)"
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "generateClientClasses": true,
+      "generateClientInterfaces": true,
+      "injectHttpClient": true,
+      "disposeHttpClient": false,
+      "generateDtoTypes": false,
+      "useHttpClientCreationMethod": false,
+      "useBaseUrl": false,
+      "generateBaseUrlProperty": true,
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "output": "Generated/LowtabMonsterServiceClient.cs",
+      "namespace": "Lowtab.Monster.Service.Api.Client",
+      "className": "LowtabMonsterServiceClient",
+      "jsonLibrary": "SystemTextJson",
+      "useNullableReferenceTypes": true,
+      "generateOptionalPropertiesAsNullable": true,
+      "exceptionClass": "LowtabMonsterServiceClientException",
+      "generateDefaultValues": false,
+      "additionalNamespaceUsages": [
+        "Lowtab.Monster.Service.Contracts.WeatherForecasts.Common",
+        "Lowtab.Monster.Service.Contracts.WeatherForecasts.CreateWeatherForecast",
+        "Lowtab.Monster.Service.Contracts.WeatherForecasts.GetWeatherForecast"
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sdf.Platform.Observability.Common"/>
+    <PackageReference Include="Sdf.Platform.Redis"/>
+    <PackageReference Include="Sdf.Platform.EntityFrameworkCore.Postgresql"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"/>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lowtab.Monster.Service.Application\Lowtab.Monster.Service.Application.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Lowtab.Monster.Service.Application.UnitTests"/>
+    <InternalsVisibleTo Include="Lowtab.Monster.Service.Api.UnitTests"/>
+  </ItemGroup>
+
+</Project>

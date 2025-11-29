@@ -1,0 +1,41 @@
+name: GitFlow CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - master
+      - 'feature/**'
+      - 'release/**'
+      - 'hotfix/**'
+  pull_request:
+    branches:
+      - develop
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  gitflow:
+    name: GitFlow
+    uses: sdfghq/cicd/.github/workflows/dotnet-gitflow-reusable.yml@master
+    with:
+      matrix_versions: '["10.0.x"]'
+      configuration: Release
+      run_tests: true
+      enable_cache: false
+      lint: true
+      pack_enabled: false
+      docker_enabled: true
+      dockerfile: src/Lowtab.Monster.Service.Api/Dockerfile
+      docker_context: .
+      docker_image_name: ghcr.io/sdfghq/photo-cleaner-facade-api
+      publish_enabled: true
+      publish_project: src/Lowtab.Monster.Service.Api/Lowtab.Monster.Service.Api.csproj
+    secrets:
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}

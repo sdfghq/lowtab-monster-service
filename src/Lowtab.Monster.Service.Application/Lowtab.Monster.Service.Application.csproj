@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediator.SourceGenerator">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Sdf.Platform.Mediator"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    <PackageReference Include="Riok.Mapperly"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lowtab.Monster.Service.Domain\Lowtab.Monster.Service.Domain.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Lowtab.Monster.Service.Application.UnitTests"/>
+  </ItemGroup>
+
+</Project>

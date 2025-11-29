@@ -1,0 +1,37 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgresql
+    restart: always
+    environment:
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  
+  cache:
+    image: eqalpha/keydb
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    ports:
+      - '8009:8009'
+    depends_on:
+      - cache
+    volumes:
+      - redisinsight:/redisinsight/db
+  
+  
+
+volumes:
+  cache:
+    driver: local
+  redisinsight:

@@ -1,0 +1,20 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>high</NuGetAuditLevel>
+    <IsPackable>false</IsPackable>
+    <VersionPrefix>1.0.0</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup Label="Build Sdk">
+    <PackageReference Include="Sdf.Platform.Build.Sdk" PrivateAssets="all"/>
+  </ItemGroup>
+
+</Project>

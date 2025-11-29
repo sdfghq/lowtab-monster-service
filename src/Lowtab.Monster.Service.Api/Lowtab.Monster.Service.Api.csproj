@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <OpenApiTargetFramework>Net80</OpenApiTargetFramework>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.develop.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.local.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.production.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.staging.json">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sdf.Platform.Web.Sdk"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lowtab.Monster.Service.Infrastructure\Lowtab.Monster.Service.Infrastructure.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Lowtab.Monster.Service.Api.UnitTests"/>
+  </ItemGroup>
+
+</Project>
