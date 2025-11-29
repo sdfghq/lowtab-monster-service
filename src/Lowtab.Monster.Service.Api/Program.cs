@@ -25,7 +25,4 @@ app.MapArticleEndpoints();
 
 await app.RunAsync();
 
-namespace Lowtab.Monster.Service.Api
-{
-    public partial class Program;
-}
+public partial class Program;

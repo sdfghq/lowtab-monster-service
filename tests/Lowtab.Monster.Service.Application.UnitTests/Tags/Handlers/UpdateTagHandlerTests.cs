@@ -1,9 +1,9 @@
 using FluentAssertions;
-using Microsoft.Extensions.Logging.Abstractions;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Handlers;
 using Lowtab.Monster.Service.Domain.Entities;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Tags.Handlers;
@@ -22,8 +22,15 @@ public sealed class UpdateTagHandlerTests : IDisposable, IAsyncDisposable
 
     private TagEntity ExistingTag { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {
@@ -41,8 +48,7 @@ public sealed class UpdateTagHandlerTests : IDisposable, IAsyncDisposable
         var handler = new UpdateTagHandler(NullLogger<UpdateTagHandler>.Instance, _context);
         var request = new UpdateTagCommand
         {
-            Id = ExistingTag.Id,
-            Name = "test name"
+            Id = ExistingTag.Id, Group = ExistingTag.Group, Description = "test description"
         };
 
         // Act
@@ -51,7 +57,7 @@ public sealed class UpdateTagHandlerTests : IDisposable, IAsyncDisposable
         // Assert
         result.Should().NotBeNull();
 
-        var dbEntity = await _context.Tags.FindAsync(request.Id);
+        var dbEntity = await _context.Tags.FindAsync(request.Id, request.Group);
         dbEntity.Should().NotBeNull().And.BeEquivalentTo(request, options => options.ExcludingMissingMembers());
     }
 }

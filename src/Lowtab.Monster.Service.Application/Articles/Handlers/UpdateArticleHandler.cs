@@ -1,16 +1,15 @@
+using Lowtab.Monster.Service.Application.Articles.Commands;
+using Lowtab.Monster.Service.Application.Articles.Mappings;
+using Lowtab.Monster.Service.Application.Common.Exceptions;
+using Lowtab.Monster.Service.Application.Interfaces;
+using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
 using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Lowtab.Monster.Service.Application.Common.Exceptions;
-using Lowtab.Monster.Service.Application.Interfaces;
-using Lowtab.Monster.Service.Application.Articles.Commands;
-using Lowtab.Monster.Service.Application.Articles.Mappings;
-using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 
-internal class UpdateArticleHandler
-(
+internal class UpdateArticleHandler(
     ILogger<UpdateArticleHandler> logger,
     IDbContext context
 ) : ICommandHandler<UpdateArticleCommand, UpdateArticleResponse>

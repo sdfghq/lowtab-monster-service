@@ -1,12 +1,12 @@
 using Lowtab.Monster.Service.Contracts.GroupTags;
-using Mediator;
 using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
+using Mediator;
 
 namespace Lowtab.Monster.Service.Application.Tags.Queryes;
 
 /// <summary>
-///     Запрос для получения списка объектов <see cref="TagBase"/>
+///     Запрос для получения списка объектов <see cref="TagBase" />
 /// </summary>
 public record GetTagQuery : IQuery<GetTagResponse>
 {

@@ -1,14 +1,13 @@
-using Mediator;
-using Microsoft.Extensions.Logging;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Mappings;
 using Lowtab.Monster.Service.Contracts.Tags.CreateTag;
+using Mediator;
+using Microsoft.Extensions.Logging;
 
 namespace Lowtab.Monster.Service.Application.Tags.Handlers;
 
-internal class CreateTagHandler
-(
+internal class CreateTagHandler(
     ILogger<CreateTagHandler> logger,
     IDbContext context
 ) : ICommandHandler<CreateTagCommand, CreateTagResponse>

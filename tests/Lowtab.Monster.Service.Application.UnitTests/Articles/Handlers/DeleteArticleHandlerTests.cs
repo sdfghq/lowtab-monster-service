@@ -21,8 +21,15 @@ public sealed class DeleteArticleHandlerTests : IDisposable, IAsyncDisposable
 
     private ArticleEntity ExistingArticle { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {

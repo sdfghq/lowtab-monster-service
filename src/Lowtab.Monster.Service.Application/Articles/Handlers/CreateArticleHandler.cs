@@ -1,14 +1,13 @@
-using Mediator;
-using Microsoft.Extensions.Logging;
-using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Articles.Mappings;
+using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Contracts.Articles.CreateArticle;
+using Mediator;
+using Microsoft.Extensions.Logging;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 
-internal class CreateArticleHandler
-(
+internal class CreateArticleHandler(
     ILogger<CreateArticleHandler> logger,
     IDbContext context
 ) : ICommandHandler<CreateArticleCommand, CreateArticleResponse>

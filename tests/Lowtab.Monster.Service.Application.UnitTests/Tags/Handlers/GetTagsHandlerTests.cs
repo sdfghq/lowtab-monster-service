@@ -21,8 +21,15 @@ public sealed class GetTagsHandlerTests : IDisposable, IAsyncDisposable
 
     private TagEntity ExistingTag { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {
@@ -38,11 +45,7 @@ public sealed class GetTagsHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new GetTagsHandler(_context);
-        var request = new GetTagsQuery
-        {
-            Offset = 0,
-            Limit = 10
-        };
+        var request = new GetTagsQuery { Offset = 0, Limit = 10 };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -52,20 +55,12 @@ public sealed class GetTagsHandlerTests : IDisposable, IAsyncDisposable
         result.Items.Count.Should().Be(2);
         Assert.Equivalent(result.TotalCount, result.TotalFound);
 
-        result = await handler.Handle(new GetTagsQuery
-        {
-            Offset = 0,
-            Limit = 1
-        }, CancellationToken.None);
+        result = await handler.Handle(new GetTagsQuery { Offset = 0, Limit = 1 }, CancellationToken.None);
         result.Should().NotBeNull();
         result.TotalFound.Should().Be(result.TotalFound).And.Be(2);
         Assert.Equivalent(1, result.Items.Count);
 
-        result = await handler.Handle(new GetTagsQuery
-        {
-            Offset = 1,
-            Limit = 1
-        }, CancellationToken.None);
+        result = await handler.Handle(new GetTagsQuery { Offset = 1, Limit = 1 }, CancellationToken.None);
         result.Should().NotBeNull();
         result.TotalFound.Should().Be(result.TotalFound).And.Be(2);
         Assert.Equivalent(1, result.Items.Count);

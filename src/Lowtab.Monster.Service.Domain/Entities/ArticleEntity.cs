@@ -1,10 +1,10 @@
-using Sdf.Platform.EntityFrameworkCore.Abstractions;
 using Lowtab.Monster.Service.Contracts.Articles.Common;
+using Sdf.Platform.EntityFrameworkCore.Abstractions;
 
 namespace Lowtab.Monster.Service.Domain.Entities;
 
 /// <summary>
-///     Модель объекта <inheritdoc cref="Article"/> в базе данных
+///     Модель объекта <inheritdoc cref="Article" /> в базе данных
 /// </summary>
 public class ArticleEntity : ITrackedTime
 {

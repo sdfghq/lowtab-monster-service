@@ -3,22 +3,17 @@ using Lowtab.Monster.Service.Contracts.Articles.Common;
 namespace Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 
 /// <summary>
-///     Запрос получения списка объектов <see cref="Article"/>
+///     Запрос получения списка объектов <see cref="Article" />
 /// </summary>
 public record GetArticlesRequest
 {
-    /// <summary>
-    ///     Фильтр по имени
-    /// </summary>
-    public string? NameFilter { get; set; }
-
     /// <summary>
     ///     Отступ от начала списка
     /// </summary>
     public required int Offset { get; init; }
 
     /// <summary>
-    ///      Количество элементов в списке
+    ///     Количество элементов в списке
     /// </summary>
     public required int Limit { get; init; }
 }

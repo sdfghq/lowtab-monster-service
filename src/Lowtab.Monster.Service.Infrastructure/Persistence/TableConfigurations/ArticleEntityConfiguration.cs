@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Lowtab.Monster.Service.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Lowtab.Monster.Service.Domain.Entities;
 
 namespace Lowtab.Monster.Service.Infrastructure.Persistence.TableConfigurations;
 

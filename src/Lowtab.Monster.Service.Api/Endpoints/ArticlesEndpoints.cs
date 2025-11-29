@@ -1,6 +1,4 @@
 using System.Net;
-using Mediator;
-using Microsoft.AspNetCore.Mvc;
 using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Contracts.Articles;
@@ -9,6 +7,8 @@ using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
+using Mediator;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Lowtab.Monster.Service.Api.Endpoints;
 
@@ -50,7 +50,8 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(UpdateArticleResponse), (int)HttpStatusCode.OK)]
     private static async Task<UpdateArticleResponse> UpdateArticle(
-        [FromRoute] Guid id, [FromBody] UpdateArticleRequest request, [FromServices] ISender mediator, CancellationToken ct = default)
+        [FromRoute] Guid id, [FromBody] UpdateArticleRequest request, [FromServices] ISender mediator,
+        CancellationToken ct = default)
     {
         var result =
             await mediator.Send(
@@ -76,15 +77,22 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(GetArticlesResponse), (int)HttpStatusCode.OK)]
-    private static async Task<GetArticlesResponse> GetArticles([AsParameters] GetArticlesRequest request,
+    private static async Task<GetArticlesResponse> GetArticles(
+        [AsParameters] GetArticlesRequest request,
+        [FromQuery] string? textFilter,
+        //[FromQuery] TagFilter[]? tagFilter,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
             await mediator.Send(
                 new GetArticlesQuery
                 {
-                    NameFilter = request.NameFilter, Offset = request.Offset, Limit = request.Limit
+                    TextFilter = textFilter,
+                    //TagFilter = tagFilter,
+                    Offset = request.Offset,
+                    Limit = request.Limit
                 }, ct);
+
         return result;
     }
 

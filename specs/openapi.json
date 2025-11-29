@@ -275,15 +275,6 @@
         "operationId": "GetInternalV1Tags",
         "parameters": [
           {
-            "name": "NameFilter",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
             "name": "offset",
             "in": "path",
             "required": true,
@@ -291,7 +282,7 @@
               "type": "integer",
               "format": "int32"
             },
-            "x-position": 2
+            "x-position": 1
           },
           {
             "name": "limit",
@@ -301,7 +292,30 @@
               "type": "integer",
               "format": "int32"
             },
+            "x-position": 2
+          },
+          {
+            "name": "idFilter",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
             "x-position": 3
+          },
+          {
+            "name": "groupsFilter",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "$ref": "#/components/schemas/GroupTagEnum"
+              }
+            },
+            "x-position": 4
           }
         ],
         "responses": {
@@ -592,16 +606,17 @@
         "operationId": "GetInternalV1Article2",
         "parameters": [
           {
-            "name": "NameFilter",
-            "in": "query",
+            "name": "offset",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           },
           {
-            "name": "offset",
+            "name": "limit",
             "in": "path",
             "required": true,
             "schema": {
@@ -611,12 +626,11 @@
             "x-position": 2
           },
           {
-            "name": "limit",
-            "in": "path",
-            "required": true,
+            "name": "textFilter",
+            "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "nullable": true
             },
             "x-position": 3
           }

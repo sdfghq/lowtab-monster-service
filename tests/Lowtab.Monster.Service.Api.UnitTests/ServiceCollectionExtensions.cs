@@ -1,5 +1,7 @@
-﻿using Lowtab.Monster.Service.Infrastructure.Persistence;
+﻿using HealthChecks.NpgSql;
+using Lowtab.Monster.Service.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Moq;
 using StackExchange.Redis;
 using InternalDbContextFactory = Lowtab.Monster.Service.Application.UnitTests.InternalDbContextFactory;
@@ -35,6 +37,8 @@ public static class ServiceCollectionExtensions
     {
         InternalDbContextFactory factory = new();
         services.AddScoped<InternalDbContext>(_ => factory.CreateDbContext([]));
+        services.Remove<NpgSqlHealthCheck>();
+        services.PostConfigure<HealthCheckServiceOptions>(options => options.Registrations.Clear());
 
         return services;
     }

@@ -1,6 +1,7 @@
 using Bogus;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Mappings;
+using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
 using Lowtab.Monster.Service.Domain.Entities;
 
@@ -9,18 +10,37 @@ namespace Lowtab.Monster.Service.Application.UnitTests.Tags;
 public static class Arrange
 {
     private static readonly Faker<CreateTagCommand> CreateReceiptCommandFaker = new Faker<CreateTagCommand>()
-        .RuleFor(x => x.Name, f => f.Commerce.ProductName());
+        .RuleFor(x => x.Id, f => f.Random.String2(10))
+        .RuleFor(x => x.Group, f => f.PickRandom<GroupTagEnum>())
+        .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
     private static readonly Faker<UpdateTagCommand> UpdateReceiptCommandFaker = new Faker<UpdateTagCommand>()
-        .RuleFor(x => x.Name, f => f.Commerce.ProductName())
-        .RuleFor(x => x.Id, f => f.Random.Guid());
+        .RuleFor(x => x.Id, f => f.Random.String2(10))
+        .RuleFor(x => x.Group, f => f.PickRandom<GroupTagEnum>())
+        .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
     private static readonly Faker<GetTagResponse> GetReceiptBaseResponseFaker = new Faker<GetTagResponse>()
-        .RuleFor(x => x.Id, f => f.Random.Guid())
-        .RuleFor(x => x.Name, f => f.Commerce.ProductName());
+        .RuleFor(x => x.Id, f => f.Random.String2(10))
+        .RuleFor(x => x.Group, f => f.PickRandom<GroupTagEnum>())
+        .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
-    public static CreateTagCommand GetValidCreateTagCommand() => CreateReceiptCommandFaker.Generate();
-    public static UpdateTagCommand GetValidUpdateTagCommand() => UpdateReceiptCommandFaker.Generate();
-    public static GetTagResponse GetValidGetTagResponse() => GetReceiptBaseResponseFaker.Generate();
-    public static TagEntity GenerateTagEntity() => CreateReceiptCommandFaker.Generate().ToEntity();
+    public static CreateTagCommand GetValidCreateTagCommand()
+    {
+        return CreateReceiptCommandFaker.Generate();
+    }
+
+    public static UpdateTagCommand GetValidUpdateTagCommand()
+    {
+        return UpdateReceiptCommandFaker.Generate();
+    }
+
+    public static GetTagResponse GetValidGetTagResponse()
+    {
+        return GetReceiptBaseResponseFaker.Generate();
+    }
+
+    public static TagEntity GenerateTagEntity()
+    {
+        return CreateReceiptCommandFaker.Generate().ToEntity();
+    }
 }

@@ -1,7 +1,7 @@
 using FluentAssertions;
-using Microsoft.Extensions.Logging.Abstractions;
 using Lowtab.Monster.Service.Application.Articles.Handlers;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Articles.Handlers;
@@ -11,8 +11,15 @@ public sealed class CreateArticleHandlerTests : IDisposable, IAsyncDisposable
     private static readonly InternalDbContextFactory Factory = new();
     private readonly InternalDbContext _context = Factory.CreateDbContext([nameof(CreateArticleHandlerTests)]);
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     [Fact]
     public async Task CreateArticleHandler_Handle_Successful()

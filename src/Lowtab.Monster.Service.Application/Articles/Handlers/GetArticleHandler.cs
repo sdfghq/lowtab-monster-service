@@ -1,15 +1,14 @@
-using Mediator;
-using Microsoft.Extensions.Logging;
+using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
 using Lowtab.Monster.Service.Application.Interfaces;
-using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
+using Mediator;
+using Microsoft.Extensions.Logging;
 using ArticleMapper = Lowtab.Monster.Service.Application.Articles.Mappings.ArticleMapper;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 
-internal class GetArticleHandler
-(
+internal class GetArticleHandler(
     ILogger<GetArticleHandler> logger,
     IDbContext context
 ) : IQueryHandler<GetArticleQuery, GetArticleResponse>

@@ -1,9 +1,9 @@
 using FluentAssertions;
-using Microsoft.Extensions.Logging.Abstractions;
 using Lowtab.Monster.Service.Application.Tags.Handlers;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
 using Lowtab.Monster.Service.Domain.Entities;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Tags.Handlers;
@@ -22,8 +22,15 @@ public sealed class GetTagHandlerTests : IDisposable, IAsyncDisposable
 
     private TagEntity ExistingTag { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {
@@ -39,7 +46,7 @@ public sealed class GetTagHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new GetTagHandler(NullLogger<GetTagHandler>.Instance, _context);
-        var request = new GetTagQuery { Id = ExistingTag.Id };
+        var request = new GetTagQuery { Id = ExistingTag.Id, Group = ExistingTag.Group };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);

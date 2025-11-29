@@ -1,16 +1,15 @@
-using Mediator;
-using Microsoft.Extensions.Logging;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TagMapper = Lowtab.Monster.Service.Application.Tags.Mappings.TagMapper;
 
 namespace Lowtab.Monster.Service.Application.Tags.Handlers;
 
-internal class GetTagHandler
-(
+internal class GetTagHandler(
     ILogger<GetTagHandler> logger,
     IDbContext context
 ) : IQueryHandler<GetTagQuery, GetTagResponse>

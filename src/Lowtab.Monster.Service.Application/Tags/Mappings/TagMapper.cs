@@ -1,7 +1,7 @@
-using Riok.Mapperly.Abstractions;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
 using Lowtab.Monster.Service.Domain.Entities;
+using Riok.Mapperly.Abstractions;
 
 namespace Lowtab.Monster.Service.Application.Tags.Mappings;
 

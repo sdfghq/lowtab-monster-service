@@ -1,16 +1,15 @@
-using Mediator;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Mappings;
 using Lowtab.Monster.Service.Contracts.Tags.UpdateTag;
+using Mediator;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Lowtab.Monster.Service.Application.Tags.Handlers;
 
-internal class UpdateTagHandler
-(
+internal class UpdateTagHandler(
     ILogger<UpdateTagHandler> logger,
     IDbContext context
 ) : ICommandHandler<UpdateTagCommand, UpdateTagResponse>
@@ -20,8 +19,9 @@ internal class UpdateTagHandler
         var newEntity = request.ToEntity();
 
         logger.LogInformation("Try update {@Entity} in database", newEntity);
-        var updatedEntity = await context.Tags.FirstOrDefaultAsync(x => x.Id == newEntity.Id, ct) ??
-                            throw new NotFoundException($"Не нашел объект с идентификатором {newEntity.Id}");
+        var updatedEntity =
+            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id && x.Group == request.Group, ct) ??
+            throw new NotFoundException($"Не нашел объект с идентификатором {newEntity.Id}");
 
         newEntity.CopyTo(updatedEntity);
 

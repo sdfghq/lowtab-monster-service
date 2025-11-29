@@ -4,7 +4,8 @@
 
 ## Описание
 
-Микросервис построен по принципам Clean Architecture с четким разделением ответственности между слоями. Решение включает все необходимые компоненты для production-ready сервиса: API, бизнес-логику, инфраструктуру, тесты и утилиты.
+Микросервис построен по принципам Clean Architecture с четким разделением ответственности между слоями. Решение включает
+все необходимые компоненты для production-ready сервиса: API, бизнес-логику, инфраструктуру, тесты и утилиты.
 
 ### Структура решения
 
@@ -22,31 +23,37 @@
 #### Основные слои (src/)
 
 **Lowtab.Monster.Service.Api** - Web API слой
+
 - ASP.NET Core приложение с Minimal API endpoints
 - Маршрутизация, middleware, dependency injection
 - Интеграция с observability (логирование, метрики, health checks)
 
 **Lowtab.Monster.Service.Application** - Бизнес-логика
+
 - Use cases через Mediator pattern (Commands/Queries)
 - FluentValidation для валидации запросов
 - Организация по фичам (Feature Folders)
 
 **Lowtab.Monster.Service.Domain** - Доменная модель
+
 - Сущности, value objects, enums
 - Не зависит от внешних библиотек
 - Генерируется только при `WithDatabase=true`
 
 **Lowtab.Monster.Service.Infrastructure** - Инфраструктурный слой
+
 - EF Core репозитории и DbContext
 - Интеграции: PostgreSQL, Redis, Kafka, RabbitMQ
 - Внешние HTTP клиенты
 
 **Lowtab.Monster.Service.Contracts** - Публичные контракты
+
 - DTO для API endpoints
 - Контракты сообщений для очередей
 - Публикуется как NuGet пакет
 
 **Lowtab.Monster.Service.Api.Client** - HTTP клиент
+
 - NSwag генерируемый клиент для внешних потребителей
 - Автоматическая генерация из OpenAPI спецификации
 - Публикуется как NuGet пакет
@@ -54,42 +61,46 @@
 #### Утилиты (tools/)
 
 **Lowtab.Monster.Service.Cli** - Консольная утилита
+
 - Применение EF Core миграций
 - Подготовка окружения перед запуском
 
 #### Тесты (tests/)
 
 **Lowtab.Monster.Service.Api.UnitTests** - Тесты API
+
 - Интеграционные тесты через WebApplicationFactory
 - Тестирование endpoints и middleware
 
 **Lowtab.Monster.Service.Application.UnitTests** - Тесты бизнес-логики
+
 - Unit тесты handlers и validators
 - InMemory БД для изоляции
 
 **Tests.Common** - Общая инфраструктура
+
 - Фикстуры, моки, тестовые данные
 
 ### Конфигурационные файлы
 
-| Файл | Назначение |
-|------|------------|
-| `.editorconfig` | Правила форматирования и стиля кода (C#, JSON, XML) |
-| `Directory.Build.props` | Общие MSBuild свойства для всех проектов |
-| `Directory.Packages.props` | Централизованное управление версиями NuGet пакетов |
-| `global.json` | Фиксация версии .NET SDK (8.0.400+) |
-| `nuget.config` | Источники NuGet пакетов (nuget.org + GitHub Packages) |
-| `docker-compose.yml` | Инфраструктура для локальной разработки |
+| Файл                       | Назначение                                            |
+|----------------------------|-------------------------------------------------------|
+| `.editorconfig`            | Правила форматирования и стиля кода (C#, JSON, XML)   |
+| `Directory.Build.props`    | Общие MSBuild свойства для всех проектов              |
+| `Directory.Packages.props` | Централизованное управление версиями NuGet пакетов    |
+| `global.json`              | Фиксация версии .NET SDK (8.0.400+)                   |
+| `nuget.config`             | Источники NuGet пакетов (nuget.org + GitHub Packages) |
+| `docker-compose.yml`       | Инфраструктура для локальной разработки               |
 
 ### Конфигурация приложения (appsettings)
 
-| Файл | Окружение |
-|------|-----------|
-| `appsettings.json` | Базовая конфигурация |
-| `appsettings.local.json` | Локальная разработка |
-| `appsettings.develop.json` | Dev/Dynamic среды |
-| `appsettings.staging.json` | Staging |
-| `appsettings.production.json` | Production |
+| Файл                          | Окружение            |
+|-------------------------------|----------------------|
+| `appsettings.json`            | Базовая конфигурация |
+| `appsettings.local.json`      | Локальная разработка |
+| `appsettings.develop.json`    | Dev/Dynamic среды    |
+| `appsettings.staging.json`    | Staging              |
+| `appsettings.production.json` | Production           |
 
 ## Начало работы
 
@@ -108,6 +119,7 @@ docker-compose -f enviroment/docker-compose.yml up -d
 ```
 
 Это запустит:
+
 - PostgreSQL (порт 5432)
 - KeyDB/Redis (порт 6379)
 - RedisInsight (порт 8009)
@@ -135,6 +147,7 @@ dotnet watch run
 ```
 
 Приложение доступно по адресу:
+
 - HTTP: http://localhost:5844
 - HTTPS: https://localhost:6434
 - Swagger UI: https://localhost:6434/swagger

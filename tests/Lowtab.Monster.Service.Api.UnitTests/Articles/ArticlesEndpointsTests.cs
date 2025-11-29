@@ -4,21 +4,21 @@ using System.Text;
 using System.Text.Json;
 using DeepEqual.Syntax;
 using FluentAssertions;
-using Mediator;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using Lowtab.Monster.Service.Application.Common.Exceptions;
-using Lowtab.Monster.Service.Application.UnitTests.Articles;
 using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
-using Lowtab.Monster.Service.Contracts.SerializationSettings;
+using Lowtab.Monster.Service.Application.Common.Exceptions;
+using Lowtab.Monster.Service.Application.UnitTests.Articles;
 using Lowtab.Monster.Service.Contracts.Articles.CreateArticle;
 using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
+using Lowtab.Monster.Service.Contracts.SerializationSettings;
+using Mediator;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Api.UnitTests.Articles;
@@ -28,7 +28,8 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Mock<IMediator> _mediatorMock = new();
 
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions().ConfigureJsonSerializerOptions();
+    private readonly JsonSerializerOptions _serializerOptions =
+        new JsonSerializerOptions().ConfigureJsonSerializerOptions();
 
     public ArticlesEndpointsTests()
     {
@@ -41,8 +42,15 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
             }));
     }
 
-    public ValueTask DisposeAsync() => _factory.DisposeAsync();
-    public void Dispose() => _factory.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _factory.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _factory.Dispose();
+    }
 
     [Fact]
     public async Task CreateArticle_Successfully()
@@ -264,12 +272,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetArticles_Successfully()
     {
         // Arrange
-        var request = new GetArticlesQuery
-        {
-            Offset = 0,
-            Limit = 10,
-            NameFilter = "testname"
-        };
+        var request = new GetArticlesQuery { Offset = 0, Limit = 10, TextFilter = "testname", TagFilter = null };
 
         var responseMock = new GetArticlesResponse
         {
@@ -287,7 +290,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
         using var requestMessage = new HttpRequestMessage(HttpMethod.Get,
-            $"/internal/v1/Article/{request.Offset}/{request.Limit}?nameFilter=testname");
+            $"/internal/v1/Article/{request.Offset}/{request.Limit}?textFilter=testname");
 
         // Act
         using var response = await client.SendAsync(requestMessage);

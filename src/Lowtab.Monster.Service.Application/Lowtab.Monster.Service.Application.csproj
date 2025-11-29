@@ -12,6 +12,7 @@
     <PackageReference Include="Sdf.Platform.Mediator"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore"/>
     <PackageReference Include="Riok.Mapperly"/>
+    <PackageReference Include="LinqKit.Microsoft.EntityFrameworkCore"/>
   </ItemGroup>
 
   <ItemGroup>

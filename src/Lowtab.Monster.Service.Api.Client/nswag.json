@@ -25,9 +25,17 @@
       "exceptionClass": "LowtabMonsterServiceClientException",
       "generateDefaultValues": false,
       "additionalNamespaceUsages": [
-        "Lowtab.Monster.Service.Contracts.WeatherForecasts.Common",
-        "Lowtab.Monster.Service.Contracts.WeatherForecasts.CreateWeatherForecast",
-        "Lowtab.Monster.Service.Contracts.WeatherForecasts.GetWeatherForecast"
+        "Lowtab.Monster.Service.Contracts.Articles.CreateArticle",
+        "Lowtab.Monster.Service.Contracts.Articles.DeleteArticle",
+        "Lowtab.Monster.Service.Contracts.Articles.GetArticle",
+        "Lowtab.Monster.Service.Contracts.Articles.GetArticles",
+        "Lowtab.Monster.Service.Contracts.Articles.UpdateArticle",
+        "Lowtab.Monster.Service.Contracts.GroupTags",
+        "Lowtab.Monster.Service.Contracts.Tags.CreateTag",
+        "Lowtab.Monster.Service.Contracts.Tags.DeleteTag",
+        "Lowtab.Monster.Service.Contracts.Tags.GetTag",
+        "Lowtab.Monster.Service.Contracts.Tags.GetTags",
+        "Lowtab.Monster.Service.Contracts.Tags.UpdateTag"
       ]
     }
   }

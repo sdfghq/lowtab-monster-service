@@ -1,9 +1,9 @@
 using FluentAssertions;
-using Microsoft.Extensions.Logging.Abstractions;
 using Lowtab.Monster.Service.Application.Articles.Handlers;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Domain.Entities;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Articles.Handlers;
@@ -22,8 +22,15 @@ public sealed class GetArticleHandlerTests : IDisposable, IAsyncDisposable
 
     private ArticleEntity ExistingArticle { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {

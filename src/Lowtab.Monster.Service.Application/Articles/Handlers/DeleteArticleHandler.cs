@@ -1,8 +1,8 @@
-using Mediator;
+using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
 using Lowtab.Monster.Service.Application.Interfaces;
-using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
+using Mediator;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 

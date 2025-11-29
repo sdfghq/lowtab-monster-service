@@ -4,21 +4,22 @@ using System.Text;
 using System.Text.Json;
 using DeepEqual.Syntax;
 using FluentAssertions;
-using Mediator;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
-using Lowtab.Monster.Service.Application.UnitTests.Tags;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
+using Lowtab.Monster.Service.Application.UnitTests.Tags;
+using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.SerializationSettings;
 using Lowtab.Monster.Service.Contracts.Tags.CreateTag;
 using Lowtab.Monster.Service.Contracts.Tags.DeleteTag;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
 using Lowtab.Monster.Service.Contracts.Tags.GetTags;
 using Lowtab.Monster.Service.Contracts.Tags.UpdateTag;
+using Mediator;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Api.UnitTests.Tags;
@@ -28,7 +29,8 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Mock<IMediator> _mediatorMock = new();
 
-    private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions().ConfigureJsonSerializerOptions();
+    private readonly JsonSerializerOptions _serializerOptions =
+        new JsonSerializerOptions().ConfigureJsonSerializerOptions();
 
     public TagsEndpointsTests()
     {
@@ -41,14 +43,21 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
             }));
     }
 
-    public ValueTask DisposeAsync() => _factory.DisposeAsync();
-    public void Dispose() => _factory.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _factory.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _factory.Dispose();
+    }
 
     [Fact]
     public async Task CreateTag_Successfully()
     {
         // Arrange
-        var responseMock = new CreateTagResponse { Id = Guid.NewGuid() };
+        var responseMock = new CreateTagResponse { Id = Guid.NewGuid().ToString() };
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<CreateTagCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((CreateTagCommand _, CancellationToken _) => responseMock);
@@ -105,14 +114,15 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetTag_Successfully()
     {
         // Arrange
-        var request = new GetTagQuery { Id = Guid.NewGuid() };
+        var request = new GetTagQuery { Id = Guid.NewGuid().ToString(), Group = GroupTagEnum.Map };
         var responseMock = Arrange.GetValidGetTagResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<GetTagQuery>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((GetTagQuery _, CancellationToken _) => responseMock);
 
         using var client = _factory.CreateClient();
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{request.Id}");
+        using var requestMessage =
+            new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{request.Id}/{request.Group}");
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -133,13 +143,13 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetTag_NotFound_ResponseProblemDetails()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = Guid.NewGuid().ToString();
         _mediatorMock.Setup(x => x.Send(It.IsAny<GetTagQuery>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException("Tag not found"));
 
         using var client = _factory.CreateClient();
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{id}");
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{id}/{GroupTagEnum.Map}");
 
         // Act
         using var response = await client.SendAsync(request);
@@ -165,11 +175,12 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
 
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Put, $"/internal/v1/Tag/{request.Id}")
-        {
-            Content = new StringContent(JsonSerializer.Serialize(request,
-                _serializerOptions), Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
-        };
+        using var requestMessage =
+            new HttpRequestMessage(HttpMethod.Put, $"/internal/v1/Tag/{request.Id}/{request.Group}")
+            {
+                Content = new StringContent(JsonSerializer.Serialize(request,
+                    _serializerOptions), Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
+            };
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -192,10 +203,12 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
         var request = Arrange.GetValidUpdateTagCommand();
         using var client = _factory.CreateClient();
 
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Put, $"/internal/v1/Tag/{request.Id}")
-        {
-            Content = new StringContent(string.Empty, Encoding.UTF8, new MediaTypeHeaderValue("application/json"))
-        };
+        using var requestMessage =
+            new HttpRequestMessage(HttpMethod.Put, $"/internal/v1/Tag/{request.Id}/{request.Group}")
+            {
+                Content = new StringContent(string.Empty, Encoding.UTF8,
+                    new MediaTypeHeaderValue("application/json"))
+            };
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -213,14 +226,15 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task DeleteTag_Successfully()
     {
         // Arrange
-        var request = new DeleteTagCommand { Id = Guid.NewGuid() };
+        var request = new DeleteTagCommand { Id = Guid.NewGuid().ToString(), Group = GroupTagEnum.Map };
         var responseMock = new DeleteTagResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteTagCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((DeleteTagCommand _, CancellationToken _) => responseMock);
 
         using var client = _factory.CreateClient();
-        using var requestMessage = new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{request.Id}");
+        using var requestMessage =
+            new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{request.Id}/{request.Group}");
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -240,13 +254,13 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task DeleteTag_NotFound_ResponseProblemDetails()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = Guid.NewGuid().ToString();
         _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteTagCommand>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new NotFoundException("Tag not found"));
 
         using var client = _factory.CreateClient();
 
-        using var request = new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{id}");
+        using var request = new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{id}/{GroupTagEnum.Map}");
 
         // Act
         using var response = await client.SendAsync(request);
@@ -264,12 +278,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetTags_Successfully()
     {
         // Arrange
-        var request = new GetTagsQuery
-        {
-            Offset = 0,
-            Limit = 10,
-            NameFilter = "testname"
-        };
+        var request = new GetTagsQuery { Offset = 0, Limit = 10, IdFilter = "testname", GroupsFilter = [] };
 
         var responseMock = new GetTagsResponse
         {
@@ -287,7 +296,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
         using var requestMessage = new HttpRequestMessage(HttpMethod.Get,
-            $"/internal/v1/Tag/{request.Offset}/{request.Limit}?nameFilter=testname");
+            $"/internal/v1/Tags/{request.Offset}/{request.Limit}?idFilter=testname");
 
         // Act
         using var response = await client.SendAsync(requestMessage);

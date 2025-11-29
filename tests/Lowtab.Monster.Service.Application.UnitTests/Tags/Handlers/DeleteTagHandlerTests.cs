@@ -21,8 +21,15 @@ public sealed class DeleteTagHandlerTests : IDisposable, IAsyncDisposable
 
     private TagEntity ExistingTag { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context, int count)
     {
@@ -38,7 +45,7 @@ public sealed class DeleteTagHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new DeleteTagHandler(_context);
-        var request = new DeleteTagCommand { Id = ExistingTag.Id };
+        var request = new DeleteTagCommand { Id = ExistingTag.Id, Group = ExistingTag.Group };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -46,7 +53,7 @@ public sealed class DeleteTagHandlerTests : IDisposable, IAsyncDisposable
         // Assert
         result.Should().NotBeNull();
 
-        var dbEntity = await _context.Tags.FindAsync(request.Id);
+        var dbEntity = await _context.Tags.FindAsync(request.Id, request.Group);
         dbEntity.Should().BeNull();
     }
 }

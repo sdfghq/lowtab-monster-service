@@ -21,6 +21,7 @@
     <PackageVersion Include="Riok.Mapperly" Version="4.2.1"/>
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.7"/>
     <PackageVersion Include="Sdf.Platform.EntityFrameworkCore.Abstractions" Version="1.1.0"/>
+    <PackageVersion Include="LinqKit.Microsoft.EntityFrameworkCore" Version="8.1.9"/>
   </ItemGroup>
   <ItemGroup Label="Infrastructure">
     <PackageVersion Include="Sdf.Platform.Observability.Common" Version="1.0.0"/>

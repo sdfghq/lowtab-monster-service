@@ -1,11 +1,11 @@
 using Lowtab.Monster.Service.Contracts.GroupTags;
-using Sdf.Platform.EntityFrameworkCore.Abstractions;
 using Lowtab.Monster.Service.Contracts.Tags.Common;
+using Sdf.Platform.EntityFrameworkCore.Abstractions;
 
 namespace Lowtab.Monster.Service.Domain.Entities;
 
 /// <summary>
-///     Модель объекта <inheritdoc cref="Tag"/> в базе данных
+///     Модель объекта <inheritdoc cref="Tag" /> в базе данных
 /// </summary>
 public class TagEntity : ITrackedTime
 {

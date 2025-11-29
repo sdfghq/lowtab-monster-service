@@ -2,7 +2,7 @@ using Lowtab.Monster.Service.Contracts.GroupTags;
 
 namespace Lowtab.Monster.Service.Contracts.Tags.Common;
 
-/// <inheritdoc cref="TagBase"/>
+/// <inheritdoc cref="TagBase" />
 public abstract record Tag : TagBase
 {
     /// <summary>

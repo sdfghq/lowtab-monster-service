@@ -5,7 +5,4 @@ namespace Lowtab.Monster.Service.Application.Tags.Validators;
 
 internal class CreateTagValidator : NotNullRequestValidator<CreateTagCommand>
 {
-    public CreateTagValidator()
-    {
-    }
 }
