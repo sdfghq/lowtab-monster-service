@@ -15,7 +15,7 @@ public class TagEntity : ITrackedTime
     public required string Id { get; set; }
 
     /// <summary>
-    ///     Колекция групп тегов
+    ///     Группа
     /// </summary>
     public required GroupTagEnum Group { get; set; }
 

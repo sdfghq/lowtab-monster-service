@@ -31,7 +31,7 @@ public class ArticleEntity : ITrackedTime
     /// <summary>
     ///     Список тегов
     /// </summary>
-    public ICollection<TagEntity>? Tags { get; set; }
+    public ICollection<TagEntity> Tags { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 

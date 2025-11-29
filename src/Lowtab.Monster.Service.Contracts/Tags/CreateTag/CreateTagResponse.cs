@@ -1,3 +1,4 @@
+using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.Tags.Common;
 
 namespace Lowtab.Monster.Service.Contracts.Tags.CreateTag;
@@ -11,4 +12,9 @@ public record CreateTagResponse
     ///     Идентификатор
     /// </summary>
     public required string Id { get; init; }
+
+    /// <summary>
+    ///     Группа
+    /// </summary>
+    public required GroupTagEnum Group { get; init; }
 }

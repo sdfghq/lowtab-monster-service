@@ -13,7 +13,7 @@ public abstract record ArticleBase
     /// <summary>
     ///     Описание
     /// </summary>
-    public required string Body { get; set; }
+    public required string Body { get; init; }
 
     /// <summary>
     ///     Картинка на превью

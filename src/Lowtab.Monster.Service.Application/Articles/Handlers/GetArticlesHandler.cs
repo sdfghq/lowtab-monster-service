@@ -13,14 +13,17 @@ internal class GetArticlesHandler(IDbContext context) : IQueryHandler<GetArticle
 {
     public async ValueTask<GetArticlesResponse> Handle(GetArticlesQuery request, CancellationToken ct)
     {
-        var query = context.Articles.AsNoTracking().AsQueryable();
+        var query = context.Articles
+            .Include(x => x.Tags)
+            .AsNoTracking()
+            .AsQueryable();
 
         var total = await query.CountAsync(ct);
 
         if (request.TextFilter is not null)
         {
-            query = query.Where(x => x.Title.Contains(request.TextFilter, StringComparison.CurrentCultureIgnoreCase));
-            query = query.Where(x => x.Body.Contains(request.TextFilter, StringComparison.CurrentCultureIgnoreCase));
+            query = query.Where(x => x.Title.ToLower().Contains(request.TextFilter.ToLower()));
+            query = query.Where(x => x.Body.ToLower().Contains(request.TextFilter.ToLower()));
         }
 
         if (request.TagFilter?.Count > 0)

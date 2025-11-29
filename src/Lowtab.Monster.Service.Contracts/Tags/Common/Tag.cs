@@ -3,10 +3,10 @@ using Lowtab.Monster.Service.Contracts.GroupTags;
 namespace Lowtab.Monster.Service.Contracts.Tags.Common;
 
 /// <inheritdoc cref="TagBase" />
-public abstract record Tag : TagBase
+public record Tag : TagBase
 {
     /// <summary>
-    ///     Идентификатор
+    ///     Идентификатор тега
     /// </summary>
     public required string Id { get; set; }
 

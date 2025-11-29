@@ -6,5 +6,5 @@ public abstract record Article : ArticleBase
     /// <summary>
     ///     Идентификатор
     /// </summary>
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
 }

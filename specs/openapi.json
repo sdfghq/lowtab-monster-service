@@ -757,6 +757,84 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Articles internal methods"
+        ],
+        "operationId": "DeleteInternalV1ArticleTag",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "tagId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GroupTagEnum"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTagFromArticleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -770,8 +848,48 @@
           "id": {
             "type": "string",
             "description": "Идентификатор\n            "
+          },
+          "group": {
+            "description": "Группа\n            ",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/GroupTagEnum"
+              }
+            ]
           }
         }
+      },
+      "GroupTagEnum": {
+        "type": "string",
+        "description": "Группа тега\n            ",
+        "x-enum-names": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "x-enum-varnames": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "x-enumNames": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "enum": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -822,12 +940,11 @@
           {
             "type": "object",
             "description": "Объект Tags\n            ",
-            "x-abstract": true,
             "additionalProperties": false,
             "properties": {
               "id": {
                 "type": "string",
-                "description": "Идентификатор\n            "
+                "description": "Идентификатор тега\n            "
               },
               "group": {
                 "description": "Группа\n            ",
@@ -839,38 +956,6 @@
               }
             }
           }
-        ]
-      },
-      "GroupTagEnum": {
-        "type": "string",
-        "description": "Группа тега\n            ",
-        "x-enum-names": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "x-enum-varnames": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "x-enumNames": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "enum": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
         ]
       },
       "TagBase": {
@@ -1011,7 +1096,16 @@
           {
             "type": "object",
             "description": "Ответ на запрос получения информации об объекте Article\n            ",
-            "additionalProperties": false
+            "additionalProperties": false,
+            "properties": {
+              "tags": {
+                "type": "array",
+                "description": "Список тегов\n            ",
+                "items": {
+                  "$ref": "#/components/schemas/Tag"
+                }
+              }
+            }
           }
         ]
       },
@@ -1092,6 +1186,11 @@
       "AddTagToArticleResponse": {
         "type": "object",
         "description": "Ответ на запрос добавления тега к статье\n            ",
+        "additionalProperties": false
+      },
+      "DeleteTagFromArticleResponse": {
+        "type": "object",
+        "description": "Ответ на запрос удаления тега из статьи\n            ",
         "additionalProperties": false
       },
       "DeleteArticleResponse": {

@@ -8,5 +8,5 @@ public abstract record TagBase
     /// <summary>
     ///     Описание тега
     /// </summary>
-    public string? Description { get; set; }
+    public string? Description { get; init; }
 }
