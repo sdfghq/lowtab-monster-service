@@ -5,6 +5,7 @@ using Lowtab.Monster.Service.Contracts.Articles;
 using Lowtab.Monster.Service.Contracts.Articles.AddTagToArticle;
 using Lowtab.Monster.Service.Contracts.Articles.CreateArticle;
 using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
+using Lowtab.Monster.Service.Contracts.Articles.DeleteTagFromArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
@@ -29,6 +30,7 @@ internal static class ArticlesEndpoints
         api.MapGet(ArticlesRoutes.GetArticles, GetArticles);
         api.MapPut(ArticlesRoutes.UpdateArticle, UpdateArticle);
         api.MapPut(ArticlesRoutes.AddTagToArticle, AddTagToArticle);
+        api.MapDelete(ArticlesRoutes.DeleteTagFromArticle, DeleteTagFromArticle);
         api.MapDelete(ArticlesRoutes.DeleteArticle, DeleteArticle);
 
         return app;
@@ -46,6 +48,26 @@ internal static class ArticlesEndpoints
         CancellationToken ct = default)
     {
         var result = await mediator.Send(new AddTagToArticleCommand
+        {
+            ArticleId = id,
+            TagId = tagId,
+            Group = group
+        }, ct);
+        return result;
+    }
+
+    [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
+    [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(DeleteTagFromArticleResponse), (int)HttpStatusCode.OK)]
+    private static async Task<DeleteTagFromArticleResponse> DeleteTagFromArticle(
+        [FromRoute] Guid id,
+        [FromRoute] string tagId,
+        [FromRoute] GroupTagEnum group,
+        [FromServices] ISender mediator,
+        CancellationToken ct = default)
+    {
+        var result = await mediator.Send(new DeleteTagFromArticleCommand
         {
             ArticleId = id,
             TagId = tagId,

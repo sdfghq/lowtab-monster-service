@@ -47,4 +47,9 @@ public static class ArticlesRoutes
     ///     Маршрут для добавления тега к статье
     /// </summary>
     public const string AddTagToArticle = $"{BaseUrl}/{{id}}/tag/{{tagId}}/{{group}}";
+
+    /// <summary>
+    ///     Маршрут для удаления тега из статьи
+    /// </summary>
+    public const string DeleteTagFromArticle = $"{BaseUrl}/{{id}}/tag/{{tagId}}/{{group}}";
 }
