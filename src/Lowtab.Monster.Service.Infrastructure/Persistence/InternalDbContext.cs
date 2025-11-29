@@ -12,7 +12,6 @@ public class InternalDbContext(
     AuditableEntitySaveChangesInterceptor? auditableEntitySaveChangesInterceptor)
     : DbContext(options), IDbContext
 {
-    public DbSet<GroupTagEntity> GroupTags { get; set; }
     public DbSet<TagEntity> Tags { get; set; }
     public DbSet<ArticleEntity> Articles { get; set; }
 

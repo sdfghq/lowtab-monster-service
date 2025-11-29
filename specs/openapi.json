@@ -7,7 +7,7 @@
     "version": "All Versions"
   },
   "paths": {
-    "/internal/v1/Tag": {
+    "/internal/v1/tag": {
       "post": {
         "tags": [
           "Tags internal methods"
@@ -59,7 +59,7 @@
         }
       }
     },
-    "/internal/v1/Tag/{id}": {
+    "/internal/v1/tag/{id}/{group}": {
       "get": {
         "tags": [
           "Tags internal methods"
@@ -71,10 +71,18 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 1
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GroupTagEnum"
+            },
+            "x-position": 2
           }
         ],
         "responses": {
@@ -131,10 +139,18 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 1
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GroupTagEnum"
+            },
+            "x-position": 2
           }
         ],
         "requestBody": {
@@ -147,7 +163,7 @@
             }
           },
           "required": true,
-          "x-position": 2
+          "x-position": 3
         },
         "responses": {
           "200": {
@@ -193,10 +209,18 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "guid"
+              "type": "string"
             },
             "x-position": 1
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/GroupTagEnum"
+            },
+            "x-position": 2
           }
         ],
         "responses": {
@@ -243,12 +267,12 @@
         }
       }
     },
-    "/internal/v1/Tag/{offset}/{limit}": {
+    "/internal/v1/tags/{offset}/{limit}": {
       "get": {
         "tags": [
           "Tags internal methods"
         ],
-        "operationId": "GetInternalV1Tag2",
+        "operationId": "GetInternalV1Tags",
         "parameters": [
           {
             "name": "NameFilter",
@@ -324,7 +348,7 @@
         }
       }
     },
-    "/internal/v1/Article": {
+    "/internal/v1/article": {
       "post": {
         "tags": [
           "Articles internal methods"
@@ -376,7 +400,7 @@
         }
       }
     },
-    "/internal/v1/Article/{id}": {
+    "/internal/v1/article/{id}": {
       "get": {
         "tags": [
           "Articles internal methods"
@@ -560,7 +584,7 @@
         }
       }
     },
-    "/internal/v1/Article/{offset}/{limit}": {
+    "/internal/v1/article/{offset}/{limit}": {
       "get": {
         "tags": [
           "Articles internal methods"
@@ -640,323 +664,6 @@
           }
         }
       }
-    },
-    "/internal/v1/GroupTag": {
-      "post": {
-        "tags": [
-          "GroupTags internal methods"
-        ],
-        "operationId": "PostInternalV1GroupTag",
-        "requestBody": {
-          "x-name": "request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateGroupTagRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateGroupTagResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/internal/v1/GroupTag/{id}": {
-      "get": {
-        "tags": [
-          "GroupTags internal methods"
-        ],
-        "operationId": "GetInternalV1GroupTag",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetGroupTagResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "GroupTags internal methods"
-        ],
-        "operationId": "PutInternalV1GroupTag",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateGroupTagRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateGroupTagResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "GroupTags internal methods"
-        ],
-        "operationId": "DeleteInternalV1GroupTag",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "guid"
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteGroupTagResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/internal/v1/GroupTag/{offset}/{limit}": {
-      "get": {
-        "tags": [
-          "GroupTags internal methods"
-        ],
-        "operationId": "GetInternalV1GroupTag2",
-        "parameters": [
-          {
-            "name": "NameFilter",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "offset",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "limit",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetGroupTagsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -968,8 +675,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Идентификатор\n            ",
-            "format": "guid"
+            "description": "Идентификатор\n            "
           }
         }
       },
@@ -1005,35 +711,11 @@
       "CreateTagRequest": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/TagBase"
-          },
-          {
-            "type": "object",
-            "description": "Запрос созданию объекта TagBase\n            ",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "TagBase": {
-        "type": "object",
-        "description": "Объект Tags\n            ",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Наименование\n            "
-          }
-        }
-      },
-      "GetTagResponse": {
-        "allOf": [
-          {
             "$ref": "#/components/schemas/Tag"
           },
           {
             "type": "object",
-            "description": "Ответ на запрос получения информации об объекте Tag\n            ",
+            "description": "Запрос созданию объекта TagBase\n            ",
             "additionalProperties": false
           }
         ]
@@ -1051,10 +733,74 @@
             "properties": {
               "id": {
                 "type": "string",
-                "description": "Идентификатор\n            ",
-                "format": "guid"
+                "description": "Идентификатор\n            "
+              },
+              "group": {
+                "description": "Группа\n            ",
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GroupTagEnum"
+                  }
+                ]
               }
             }
+          }
+        ]
+      },
+      "GroupTagEnum": {
+        "type": "string",
+        "description": "Группа тега\n            ",
+        "x-enum-names": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "x-enum-varnames": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "x-enumNames": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ],
+        "enum": [
+          "Map",
+          "Side",
+          "Grenade",
+          "DestinationPoint",
+          "StartPoint"
+        ]
+      },
+      "TagBase": {
+        "type": "object",
+        "description": "Объект Tags\n            ",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Описание тега\n            ",
+            "nullable": true
+          }
+        }
+      },
+      "GetTagResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Tag"
+          },
+          {
+            "type": "object",
+            "description": "Ответ на запрос получения информации об объекте Tag\n            ",
+            "additionalProperties": false
           }
         ]
       },
@@ -1147,9 +893,19 @@
         "x-abstract": true,
         "additionalProperties": false,
         "properties": {
-          "name": {
+          "title": {
             "type": "string",
             "description": "Наименование\n            "
+          },
+          "body": {
+            "type": "string",
+            "description": "Описание\n            "
+          },
+          "previewImageUrl": {
+            "type": "string",
+            "description": "Картинка на превью\n            ",
+            "format": "uri",
+            "nullable": true
           }
         }
       },
@@ -1242,133 +998,6 @@
       "DeleteArticleResponse": {
         "type": "object",
         "description": "Ответ на запрос удаления объекта Article\n            ",
-        "additionalProperties": false
-      },
-      "CreateGroupTagResponse": {
-        "type": "object",
-        "description": "Ответ при создании объекта GroupTagBase>\n            ",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Идентификатор\n            ",
-            "format": "guid"
-          }
-        }
-      },
-      "CreateGroupTagRequest": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/GroupTagBase"
-          },
-          {
-            "type": "object",
-            "description": "Запрос созданию объекта GroupTagBase\n            ",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "GroupTagBase": {
-        "type": "object",
-        "description": "Объект GroupTags\n            ",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Наименование\n            "
-          }
-        }
-      },
-      "GetGroupTagResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/GroupTag"
-          },
-          {
-            "type": "object",
-            "description": "Ответ на запрос получения информации об объекте GroupTag\n            ",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "GroupTag": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/GroupTagBase"
-          },
-          {
-            "type": "object",
-            "description": "Объект GroupTags\n            ",
-            "x-abstract": true,
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "type": "string",
-                "description": "Идентификатор\n            ",
-                "format": "guid"
-              }
-            }
-          }
-        ]
-      },
-      "GetGroupTagsResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/PaginatedResponseOfGetGroupTagResponse"
-          },
-          {
-            "type": "object",
-            "description": "Ответ на запрос получения списка объектов GroupTag\n            ",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "PaginatedResponseOfGetGroupTagResponse": {
-        "type": "object",
-        "description": "Пагинированный список\n            ",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "description": "Элементы\n            ",
-            "items": {
-              "$ref": "#/components/schemas/GetGroupTagResponse"
-            }
-          },
-          "totalFound": {
-            "type": "integer",
-            "description": "Найдено элементов\n            ",
-            "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "description": "Всего элементов\n            ",
-            "format": "int32"
-          }
-        }
-      },
-      "UpdateGroupTagResponse": {
-        "type": "object",
-        "description": "Ответ при обновлении объекта GroupTagBase>\n            ",
-        "additionalProperties": false
-      },
-      "UpdateGroupTagRequest": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/GroupTagBase"
-          },
-          {
-            "type": "object",
-            "description": "Запрос на обновление объекта GroupTag>\n            ",
-            "additionalProperties": false
-          }
-        ]
-      },
-      "DeleteGroupTagResponse": {
-        "type": "object",
-        "description": "Ответ на запрос удаления объекта GroupTag\n            ",
         "additionalProperties": false
       }
     }

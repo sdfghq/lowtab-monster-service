@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<AuditableEntitySaveChangesInterceptor>();
 
-        services.AddDbContext<InternalDbContext>((sp, options) =>
+        services.AddDbContext<InternalDbContext>((_, options) =>
         {
             options.UseNpgsql(configuration.GetConnectionString(Constants.ConnectionStringName), b =>
                 {

@@ -22,8 +22,10 @@ app.UsePlatformWebDefaults();
 app.UseStaticFiles();
 app.MapTagEndpoints();
 app.MapArticleEndpoints();
-app.MapGroupTagEndpoints();
 
 await app.RunAsync();
 
-public partial class Program;
+namespace Lowtab.Monster.Service.Api
+{
+    public partial class Program;
+}

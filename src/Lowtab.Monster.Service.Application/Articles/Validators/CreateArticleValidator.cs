@@ -8,6 +8,6 @@ internal class CreateArticleValidator : NotNullRequestValidator<CreateArticleCom
 {
     public CreateArticleValidator()
     {
-        RuleFor(x => x.Name).NotNull().NotEmpty();
+        RuleFor(x => x.Title).NotNull().NotEmpty();
     }
 }

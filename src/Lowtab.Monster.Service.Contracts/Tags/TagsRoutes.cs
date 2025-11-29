@@ -26,20 +26,20 @@ public static class TagsRoutes
     /// <summary>
     ///     Маршрут для получения объекта <see cref="TagBase"/>
     /// </summary>
-    public const string GetTag = $"{BaseUrl}/{{id}}";
+    public const string GetTag = $"{BaseUrl}/{{id}}/{{group}}";
 
     /// <summary>
     ///     Маршрут для обновления объекта <see cref="TagBase"/>
     /// </summary>
-    public const string UpdateTag = $"{BaseUrl}/{{id}}";
+    public const string UpdateTag = $"{BaseUrl}/{{id}}/{{group}}";
 
     /// <summary>
     ///     Маршрут для удаления объекта <see cref="TagBase"/>
     /// </summary>
-    public const string DeleteTag = $"{BaseUrl}/{{id}}";
+    public const string DeleteTag = $"{BaseUrl}/{{id}}/{{group}}";
 
     /// <summary>
     ///     Маршрут для получения списка объектов <see cref="TagBase"/>
     /// </summary>
-    public const string GetTags = $"{BaseUrl}/{{offset}}/{{limit}}";
+    public const string GetTags = $"{BaseUrl}s/{{offset}}/{{limit}}";
 }

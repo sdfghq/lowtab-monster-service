@@ -8,7 +8,6 @@ internal class TagEntityConfiguration : IEntityTypeConfiguration<TagEntity>
 {
     public void Configure(EntityTypeBuilder<TagEntity> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.HasMany(x => x.Groups).WithMany(x => x.Tags);
+        builder.HasKey(x => new { x.Id, x.Group });
     }
 }

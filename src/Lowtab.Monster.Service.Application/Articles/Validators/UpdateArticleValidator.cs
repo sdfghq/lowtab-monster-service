@@ -9,6 +9,6 @@ internal class UpdateArticleValidator : NotNullRequestValidator<UpdateArticleCom
     public UpdateArticleValidator()
     {
         RuleFor(x => x.Id).NotNull().NotEmpty();
-        RuleFor(x => x.Name).NotNull().NotEmpty();
+        RuleFor(x => x.Title).NotNull().NotEmpty();
     }
 }

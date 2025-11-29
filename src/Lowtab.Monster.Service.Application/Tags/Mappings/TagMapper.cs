@@ -8,7 +8,6 @@ namespace Lowtab.Monster.Service.Application.Tags.Mappings;
 [Mapper(UseDeepCloning = true, EnumMappingStrategy = EnumMappingStrategy.ByName)]
 internal static partial class TagMapper
 {
-    [MapperIgnoreTarget(nameof(TagEntity.Id))]
     [MapperIgnoreTarget(nameof(TagEntity.CreatedAt))]
     [MapperIgnoreTarget(nameof(TagEntity.UpdatedAt))]
     public static partial TagEntity ToEntity(this CreateTagCommand command);
@@ -24,6 +23,8 @@ internal static partial class TagMapper
     public static partial IQueryable<GetTagResponse> ProjectToDto(this IQueryable<TagEntity> query);
 
     [MapperIgnoreTarget(nameof(TagEntity.Id))]
+    [MapperIgnoreTarget(nameof(TagEntity.Group))]
     [MapperIgnoreSource(nameof(TagEntity.Id))]
+    [MapperIgnoreSource(nameof(TagEntity.Group))]
     public static partial void CopyTo(this TagEntity source, TagEntity target);
 }

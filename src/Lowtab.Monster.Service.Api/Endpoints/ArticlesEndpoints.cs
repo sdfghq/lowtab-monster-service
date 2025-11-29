@@ -37,7 +37,12 @@ internal static class ArticlesEndpoints
     private static async Task<CreateArticleResponse> CreateArticle([FromBody] CreateArticleRequest request,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
-        var result = await mediator.Send(new CreateArticleCommand { Name = request.Name }, ct);
+        var result =
+            await mediator.Send(
+                new CreateArticleCommand
+                {
+                    Title = request.Title, Body = request.Body, PreviewImageUrl = request.PreviewImageUrl
+                }, ct);
         return result;
     }
 
@@ -47,7 +52,12 @@ internal static class ArticlesEndpoints
     private static async Task<UpdateArticleResponse> UpdateArticle(
         [FromRoute] Guid id, [FromBody] UpdateArticleRequest request, [FromServices] ISender mediator, CancellationToken ct = default)
     {
-        var result = await mediator.Send(new UpdateArticleCommand { Name = request.Name, Id = id }, ct);
+        var result =
+            await mediator.Send(
+                new UpdateArticleCommand
+                {
+                    Title = request.Title, Id = id, Body = request.Body, PreviewImageUrl = request.PreviewImageUrl
+                }, ct);
         return result;
     }
 
