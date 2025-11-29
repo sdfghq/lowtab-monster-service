@@ -13,6 +13,8 @@ using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
+using Lowtab.Monster.Service.Contracts.Articles.AddTagToArticle;
+using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.SerializationSettings;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -306,5 +308,35 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
         var responseObject =
             JsonSerializer.Deserialize<GetArticlesResponse>(responseContent, _serializerOptions);
         responseObject.Should().NotBeNull().And.BeEquivalentTo(responseMock);
+    }
+
+    [Fact]
+    public async Task AddTagToArticle_Successfully()
+    {
+        // Arrange
+        var articleId = Guid.NewGuid();
+        var tagId = "test-tag";
+        var group = GroupTagEnum.Map;
+        var responseMock = new AddTagToArticleResponse();
+
+        _mediatorMock.Setup(x => x.Send(It.IsAny<AddTagToArticleCommand>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((AddTagToArticleCommand _, CancellationToken _) => responseMock);
+
+        using var client = _factory.CreateClient();
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Put,
+            $"/internal/v1/Article/{articleId}/tag/{tagId}/{group}");
+
+        // Act
+        using var response = await client.SendAsync(requestMessage);
+
+        // Assert
+        response.Should().NotBeNull();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        _mediatorMock.Verify(x => x.Send(It.Is<AddTagToArticleCommand>(command =>
+                command.ArticleId == articleId &&
+                command.TagId == tagId &&
+                command.Group == group),
+            It.IsAny<CancellationToken>()), Times.Once);
     }
 }

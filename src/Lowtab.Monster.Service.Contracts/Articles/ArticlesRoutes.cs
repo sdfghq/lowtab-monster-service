@@ -42,4 +42,9 @@ public static class ArticlesRoutes
     ///     Маршрут для получения списка объектов <see cref="ArticleBase" />
     /// </summary>
     public const string GetArticles = $"{BaseUrl}/{{offset}}/{{limit}}";
+
+    /// <summary>
+    ///     Маршрут для добавления тега к статье
+    /// </summary>
+    public const string AddTagToArticle = $"{BaseUrl}/{{id}}/tag/{{tagId}}/{{group}}";
 }
