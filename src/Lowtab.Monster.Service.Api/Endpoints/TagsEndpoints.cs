@@ -1,8 +1,8 @@
 using System.Net;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
-using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.Tags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.CreateTag;
 using Lowtab.Monster.Service.Contracts.Tags.DeleteTag;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
@@ -40,7 +40,7 @@ internal static class TagsEndpoints
     {
         var result =
             await mediator.Send(
-                new CreateTagCommand { Description = request.Description, Id = request.Id, Group = request.Group }, ct);
+                new CreateTagCommand { Description = request.Description, Id = request.Id }, ct);
 
         return result;
     }
@@ -53,7 +53,8 @@ internal static class TagsEndpoints
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
-            await mediator.Send(new UpdateTagCommand { Id = id, Group = group, Description = request.Description }, ct);
+            await mediator.Send(new UpdateTagCommand { Id = new TagId(group, id), Description = request.Description },
+                ct);
         return result;
     }
 
@@ -65,7 +66,7 @@ internal static class TagsEndpoints
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new GetTagQuery { Id = id, Group = group }, ct);
+        var result = await mediator.Send(new GetTagQuery { Id = new TagId(group, id) }, ct);
         return result;
     }
 
@@ -73,7 +74,8 @@ internal static class TagsEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(GetTagsResponse), (int)HttpStatusCode.OK)]
-    private static async Task<GetTagsResponse> GetTags([AsParameters] GetTagsRequest request, [FromQuery] string? idFilter, [FromQuery] GroupTagEnum[]? groupsFilter,
+    private static async Task<GetTagsResponse> GetTags([AsParameters] GetTagsRequest request,
+        [FromQuery] string? idFilter, [FromQuery] GroupTagEnum[]? groupsFilter,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
@@ -94,7 +96,7 @@ internal static class TagsEndpoints
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new DeleteTagCommand { Id = id, Group = group }, ct);
+        var result = await mediator.Send(new DeleteTagCommand { Id = new TagId(group, id) }, ct);
         return result;
     }
 }

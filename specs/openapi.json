@@ -679,7 +679,7 @@
         }
       }
     },
-    "/internal/v1/article/{id}/tag/{tagId}/{group}": {
+    "/internal/v1/article/{id}/tag/{tag}": {
       "put": {
         "tags": [
           "Articles internal methods"
@@ -697,22 +697,13 @@
             "x-position": 1
           },
           {
-            "name": "tagId",
+            "name": "tag",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/TagId"
             },
             "x-position": 2
-          },
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GroupTagEnum"
-            },
-            "x-position": 3
           }
         ],
         "responses": {
@@ -775,22 +766,13 @@
             "x-position": 1
           },
           {
-            "name": "tagId",
+            "name": "tag",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/TagId"
             },
             "x-position": 2
-          },
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GroupTagEnum"
-            },
-            "x-position": 3
           }
         ],
         "responses": {
@@ -846,16 +828,31 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string",
-            "description": "Идентификатор\n            "
-          },
+            "description": "Идентификатор\n            ",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TagId"
+              }
+            ]
+          }
+        }
+      },
+      "TagId": {
+        "type": "object",
+        "description": "Композитный идентификатор тега\n            ",
+        "additionalProperties": false,
+        "properties": {
           "group": {
-            "description": "Группа\n            ",
+            "description": "Группа тега\n            ",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/GroupTagEnum"
               }
             ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Идентификатор тега\n            "
           }
         }
       },
@@ -943,14 +940,10 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "type": "string",
-                "description": "Идентификатор тега\n            "
-              },
-              "group": {
-                "description": "Группа\n            ",
+                "description": "Идентификатор тега\n            ",
                 "oneOf": [
                   {
-                    "$ref": "#/components/schemas/GroupTagEnum"
+                    "$ref": "#/components/schemas/TagId"
                   }
                 ]
               }

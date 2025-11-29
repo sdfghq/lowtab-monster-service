@@ -9,7 +9,7 @@ using Lowtab.Monster.Service.Contracts.Articles.DeleteTagFromArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
-using Lowtab.Monster.Service.Contracts.GroupTags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,17 +42,11 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(AddTagToArticleResponse), (int)HttpStatusCode.OK)]
     private static async Task<AddTagToArticleResponse> AddTagToArticle(
         [FromRoute] Guid id,
-        [FromRoute] string tagId,
-        [FromRoute] GroupTagEnum group,
+        [FromRoute] TagId tag,
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new AddTagToArticleCommand
-        {
-            ArticleId = id,
-            TagId = tagId,
-            Group = group
-        }, ct);
+        var result = await mediator.Send(new AddTagToArticleCommand { ArticleId = id, TagId = tag }, ct);
         return result;
     }
 
@@ -62,17 +56,11 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(DeleteTagFromArticleResponse), (int)HttpStatusCode.OK)]
     private static async Task<DeleteTagFromArticleResponse> DeleteTagFromArticle(
         [FromRoute] Guid id,
-        [FromRoute] string tagId,
-        [FromRoute] GroupTagEnum group,
+        [FromRoute] TagId tag,
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new DeleteTagFromArticleCommand
-        {
-            ArticleId = id,
-            TagId = tagId,
-            Group = group
-        }, ct);
+        var result = await mediator.Send(new DeleteTagFromArticleCommand { ArticleId = id, TagId = tag }, ct);
         return result;
     }
 

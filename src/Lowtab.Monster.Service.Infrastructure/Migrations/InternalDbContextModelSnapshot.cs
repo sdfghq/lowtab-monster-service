@@ -32,15 +32,11 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("tags_id");
 
-                    b.Property<int>("TagsGroup")
-                        .HasColumnType("integer")
-                        .HasColumnName("tags_group");
-
-                    b.HasKey("ArticleEntityId", "TagsId", "TagsGroup")
+                    b.HasKey("ArticleEntityId", "TagsId")
                         .HasName("pk_article_entity_tag_entity");
 
-                    b.HasIndex("TagsId", "TagsGroup")
-                        .HasDatabaseName("ix_article_entity_tag_entity_tags_id_tags_group");
+                    b.HasIndex("TagsId")
+                        .HasDatabaseName("ix_article_entity_tag_entity_tags_id");
 
                     b.ToTable("article_entity_tag_entity", (string)null);
                 });
@@ -86,10 +82,6 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("id");
 
-                    b.Property<int>("Group")
-                        .HasColumnType("integer")
-                        .HasColumnName("group");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
@@ -102,7 +94,7 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id", "Group")
+                    b.HasKey("Id")
                         .HasName("pk_tags");
 
                     b.ToTable("tags", (string)null);
@@ -119,10 +111,10 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
 
                     b.HasOne("Lowtab.Monster.Service.Domain.Entities.TagEntity", null)
                         .WithMany()
-                        .HasForeignKey("TagsId", "TagsGroup")
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_article_entity_tag_entity_tags_tags_id_tags_group");
+                        .HasConstraintName("fk_article_entity_tag_entity_tags_tags_id");
                 });
 #pragma warning restore 612, 618
         }

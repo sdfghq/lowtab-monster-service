@@ -2,7 +2,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
 using Lowtab.Monster.Service.Application.Tags.Validators;
-using Lowtab.Monster.Service.Contracts.GroupTags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Tags.Validators;
@@ -13,12 +13,12 @@ public class GetTagValidatorTests
 
     public static IEnumerable<object[]> ValidData()
     {
-        yield return [new GetTagQuery { Id = "test-id", Group = GroupTagEnum.Map }];
+        yield return [new GetTagQuery { Id = new TagId(GroupTagEnum.Map, "test-id") }];
     }
 
     public static IEnumerable<object[]> InvalidData()
     {
-        yield return [new GetTagQuery { Id = string.Empty, Group = GroupTagEnum.Map }];
+        yield return [new GetTagQuery { Id = default }];
         yield return [null!];
     }
 

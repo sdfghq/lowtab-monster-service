@@ -1,4 +1,4 @@
-using Lowtab.Monster.Service.Contracts.GroupTags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 
 namespace Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 

@@ -46,10 +46,7 @@ public sealed class UpdateTagHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new UpdateTagHandler(NullLogger<UpdateTagHandler>.Instance, _context);
-        var request = new UpdateTagCommand
-        {
-            Id = ExistingTag.Id, Group = ExistingTag.Group, Description = "test description"
-        };
+        var request = new UpdateTagCommand { Id = ExistingTag.Id, Description = "test description" };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -57,7 +54,7 @@ public sealed class UpdateTagHandlerTests : IDisposable, IAsyncDisposable
         // Assert
         result.Should().NotBeNull();
 
-        var dbEntity = await _context.Tags.FindAsync(request.Id, request.Group);
+        var dbEntity = await _context.Tags.FindAsync(request.Id);
         dbEntity.Should().NotBeNull().And.BeEquivalentTo(request, options => options.ExcludingMissingMembers());
     }
 }

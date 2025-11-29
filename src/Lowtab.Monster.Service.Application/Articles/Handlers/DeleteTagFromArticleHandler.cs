@@ -7,22 +7,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 
-internal class DeleteTagFromArticleHandler(IDbContext context) : ICommandHandler<DeleteTagFromArticleCommand, DeleteTagFromArticleResponse>
+internal class DeleteTagFromArticleHandler(IDbContext context)
+    : ICommandHandler<DeleteTagFromArticleCommand, DeleteTagFromArticleResponse>
 {
-    public async ValueTask<DeleteTagFromArticleResponse> Handle(DeleteTagFromArticleCommand request, CancellationToken ct)
+    public async ValueTask<DeleteTagFromArticleResponse> Handle(DeleteTagFromArticleCommand request,
+        CancellationToken ct)
     {
         var article = await context.Articles
-            .Include(x => x.Tags)
-            .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
-            ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
+                          .Include(x => x.Tags)
+                          .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
+                      ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
 
-        var tagToRemove = article.Tags?.FirstOrDefault(t => t.Id == request.TagId && t.Group == request.Group);
+        var tagToRemove = article.Tags?.FirstOrDefault(t => t.Id == request.TagId);
 
-        if (tagToRemove != null)
+        if (tagToRemove == null)
         {
-            article.Tags!.Remove(tagToRemove);
-            await context.SaveChangesAsync(ct);
+            return new DeleteTagFromArticleResponse();
         }
+
+        article.Tags!.Remove(tagToRemove);
+        await context.SaveChangesAsync(ct);
 
         return new DeleteTagFromArticleResponse();
     }

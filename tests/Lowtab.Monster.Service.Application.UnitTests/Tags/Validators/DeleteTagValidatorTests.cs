@@ -2,7 +2,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Validators;
-using Lowtab.Monster.Service.Contracts.GroupTags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Tags.Validators;
@@ -13,12 +13,12 @@ public class DeleteTagValidatorTests
 
     public static IEnumerable<object[]> ValidData()
     {
-        yield return [new DeleteTagCommand { Id = "test-id", Group = GroupTagEnum.Map }];
+        yield return [new DeleteTagCommand { Id = new TagId(GroupTagEnum.Map, "test-id") }];
     }
 
     public static IEnumerable<object[]> InvalidData()
     {
-        yield return [new DeleteTagCommand { Id = string.Empty, Group = GroupTagEnum.Map }];
+        yield return [new DeleteTagCommand { Id = default }];
         yield return [null!];
     }
 

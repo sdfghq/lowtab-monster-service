@@ -23,6 +23,7 @@ public static class SerializerSettings
         ArgumentNullException.ThrowIfNull(serializerOptions);
         serializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         serializerOptions.Converters.Add(new JsonStringEnumConverter());
+        serializerOptions.Converters.Add(new TagIdJsonConverter());
         serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         serializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
         return serializerOptions;

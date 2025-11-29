@@ -7,25 +7,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lowtab.Monster.Service.Application.Articles.Handlers;
 
-internal class AddTagToArticleHandler(IDbContext context) : ICommandHandler<AddTagToArticleCommand, AddTagToArticleResponse>
+internal class AddTagToArticleHandler(IDbContext context)
+    : ICommandHandler<AddTagToArticleCommand, AddTagToArticleResponse>
 {
     public async ValueTask<AddTagToArticleResponse> Handle(AddTagToArticleCommand request, CancellationToken ct)
     {
         var article = await context.Articles
-            .Include(x => x.Tags)
-            .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
-            ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
+                          .Include(x => x.Tags)
+                          .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
+                      ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
 
-        var tag = await context.Tags.FindAsync([request.TagId, request.Group], ct)
-            ?? throw new NotFoundException($"Tag with id {request.TagId} and group {request.Group} not found");
+        var tag = await context.Tags.FindAsync([request.TagId], ct)
+                  ?? throw new NotFoundException($"Tag with id {request.TagId} not found");
 
-        article.Tags ??= new List<Lowtab.Monster.Service.Domain.Entities.TagEntity>();
-        
-        if (!article.Tags.Any(t => t.Id == tag.Id && t.Group == tag.Group))
+        if (article.Tags.Any(t => t.Id == tag.Id))
         {
-            article.Tags.Add(tag);
-            await context.SaveChangesAsync(ct);
+            return new AddTagToArticleResponse();
         }
+
+        article.Tags.Add(tag);
+        await context.SaveChangesAsync(ct);
 
         return new AddTagToArticleResponse();
     }

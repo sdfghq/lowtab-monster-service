@@ -45,7 +45,7 @@ public sealed class DeleteTagHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new DeleteTagHandler(_context);
-        var request = new DeleteTagCommand { Id = ExistingTag.Id, Group = ExistingTag.Group };
+        var request = new DeleteTagCommand { Id = ExistingTag.Id };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -53,7 +53,7 @@ public sealed class DeleteTagHandlerTests : IDisposable, IAsyncDisposable
         // Assert
         result.Should().NotBeNull();
 
-        var dbEntity = await _context.Tags.FindAsync(request.Id, request.Group);
+        var dbEntity = await _context.Tags.FindAsync(request.Id);
         dbEntity.Should().BeNull();
     }
 }

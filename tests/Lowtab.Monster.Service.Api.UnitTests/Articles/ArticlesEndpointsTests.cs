@@ -8,15 +8,15 @@ using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Application.Common.Exceptions;
 using Lowtab.Monster.Service.Application.UnitTests.Articles;
+using Lowtab.Monster.Service.Contracts.Articles.AddTagToArticle;
 using Lowtab.Monster.Service.Contracts.Articles.CreateArticle;
 using Lowtab.Monster.Service.Contracts.Articles.DeleteArticle;
+using Lowtab.Monster.Service.Contracts.Articles.DeleteTagFromArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
-using Lowtab.Monster.Service.Contracts.Articles.AddTagToArticle;
-using Lowtab.Monster.Service.Contracts.Articles.DeleteTagFromArticle;
-using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.SerializationSettings;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -316,8 +316,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var articleId = Guid.NewGuid();
-        var tagId = "test-tag";
-        var group = GroupTagEnum.Map;
+        var tagId = new TagId(GroupTagEnum.Map, "test-tag");
         var responseMock = new AddTagToArticleResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<AddTagToArticleCommand>(), It.IsAny<CancellationToken>()))
@@ -325,7 +324,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
         using var requestMessage = new HttpRequestMessage(HttpMethod.Put,
-            $"/internal/v1/Article/{articleId}/tag/{tagId}/{group}");
+            $"/internal/v1/Article/{articleId}/tag/{tagId}");
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -336,8 +335,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
 
         _mediatorMock.Verify(x => x.Send(It.Is<AddTagToArticleCommand>(command =>
                 command.ArticleId == articleId &&
-                command.TagId == tagId &&
-                command.Group == group),
+                command.TagId == tagId),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 
@@ -346,8 +344,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var articleId = Guid.NewGuid();
-        var tagId = "test-tag";
-        var group = GroupTagEnum.Map;
+        var tagId = new TagId(GroupTagEnum.Map, "test-tag");
         var responseMock = new DeleteTagFromArticleResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteTagFromArticleCommand>(), It.IsAny<CancellationToken>()))
@@ -355,7 +352,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
         using var requestMessage = new HttpRequestMessage(HttpMethod.Delete,
-            $"/internal/v1/Article/{articleId}/tag/{tagId}/{group}");
+            $"/internal/v1/Article/{articleId}/tag/{tagId}");
 
         // Act
         using var response = await client.SendAsync(requestMessage);
@@ -366,8 +363,7 @@ public sealed class ArticlesEndpointsTests : IDisposable, IAsyncDisposable
 
         _mediatorMock.Verify(x => x.Send(It.Is<DeleteTagFromArticleCommand>(command =>
                 command.ArticleId == articleId &&
-                command.TagId == tagId &&
-                command.Group == group),
+                command.TagId == tagId),
             It.IsAny<CancellationToken>()), Times.Once);
     }
 }

@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
                     b.SetPostgresVersion(15, 0);
                     b.MigrationsAssembly(typeof(InternalDbContext).Assembly.FullName);
                     b.EnableRetryOnFailure();
+                    // b.MapEnum<GroupTagEnum>("tag_group");
                 })
                 .UseSnakeCaseNamingConvention()
                 .EnableSensitiveDataLogging();

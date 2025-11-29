@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lowtab.Monster.Service.Infrastructure.Migrations
 {
     [DbContext(typeof(InternalDbContext))]
-    [Migration("20251129093032_Init")]
+    [Migration("20251129192144_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,6 +25,25 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ArticleEntityTagEntity", b =>
+                {
+                    b.Property<Guid>("ArticleEntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("article_entity_id");
+
+                    b.Property<string>("TagsId")
+                        .HasColumnType("text")
+                        .HasColumnName("tags_id");
+
+                    b.HasKey("ArticleEntityId", "TagsId")
+                        .HasName("pk_article_entity_tag_entity");
+
+                    b.HasIndex("TagsId")
+                        .HasDatabaseName("ix_article_entity_tag_entity_tags_id");
+
+                    b.ToTable("article_entity_tag_entity", (string)null);
+                });
+
             modelBuilder.Entity("Lowtab.Monster.Service.Domain.Entities.ArticleEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -32,13 +51,23 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("body");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("PreviewImageUrl")
                         .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnName("preview_image_url");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -50,45 +79,19 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                     b.ToTable("articles", (string)null);
                 });
 
-            modelBuilder.Entity("Lowtab.Monster.Service.Domain.Entities.GroupTagEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("pk_group_tags");
-
-                    b.ToTable("group_tags", (string)null);
-                });
-
             modelBuilder.Entity("Lowtab.Monster.Service.Domain.Entities.TagEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
                         .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Description")
                         .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnName("description");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -98,6 +101,23 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasName("pk_tags");
 
                     b.ToTable("tags", (string)null);
+                });
+
+            modelBuilder.Entity("ArticleEntityTagEntity", b =>
+                {
+                    b.HasOne("Lowtab.Monster.Service.Domain.Entities.ArticleEntity", null)
+                        .WithMany()
+                        .HasForeignKey("ArticleEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_article_entity_tag_entity_articles_article_entity_id");
+
+                    b.HasOne("Lowtab.Monster.Service.Domain.Entities.TagEntity", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_article_entity_tag_entity_tags_tags_id");
                 });
 #pragma warning restore 612, 618
         }

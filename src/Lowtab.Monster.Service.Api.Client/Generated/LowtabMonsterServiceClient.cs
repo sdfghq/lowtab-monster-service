@@ -11,7 +11,7 @@ using Lowtab.Monster.Service.Contracts.Articles.DeleteTagFromArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
 using Lowtab.Monster.Service.Contracts.Articles.UpdateArticle;
-using Lowtab.Monster.Service.Contracts.GroupTags;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.CreateTag;
 using Lowtab.Monster.Service.Contracts.Tags.DeleteTag;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;

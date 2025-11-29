@@ -1,10 +1,8 @@
 using FluentAssertions;
 using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Application.Articles.Handlers;
-using Lowtab.Monster.Service.Application.UnitTests.Articles;
 using Lowtab.Monster.Service.Domain.Entities;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
-using Lowtab.Monster.Service.Contracts.GroupTags;
 using Xunit;
 
 namespace Lowtab.Monster.Service.Application.UnitTests.Articles.Handlers;
@@ -24,13 +22,20 @@ public sealed class AddTagToArticleHandlerTests : IDisposable, IAsyncDisposable
     private ArticleEntity ExistingArticle { get; }
     private TagEntity ExistingTag { get; }
 
-    public ValueTask DisposeAsync() => _context.DisposeAsync();
-    public void Dispose() => _context.Dispose();
+    public ValueTask DisposeAsync()
+    {
+        return _context.DisposeAsync();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
+    }
 
     private static async Task SeedData(InternalDbContext context)
     {
         var article = Arrange.GenerateArticleEntity();
-        var tag = Lowtab.Monster.Service.Application.UnitTests.Tags.Arrange.GenerateTagEntity();
+        var tag = Tags.Arrange.GenerateTagEntity();
 
         await context.Articles.AddAsync(article);
         await context.Tags.AddAsync(tag);
@@ -42,12 +47,7 @@ public sealed class AddTagToArticleHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new AddTagToArticleHandler(_context);
-        var request = new AddTagToArticleCommand
-        {
-            ArticleId = ExistingArticle.Id,
-            TagId = ExistingTag.Id,
-            Group = ExistingTag.Group
-        };
+        var request = new AddTagToArticleCommand { ArticleId = ExistingArticle.Id, TagId = ExistingTag.Id };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -57,6 +57,6 @@ public sealed class AddTagToArticleHandlerTests : IDisposable, IAsyncDisposable
 
         var dbArticle = await _context.Articles.FindAsync(request.ArticleId);
         dbArticle.Should().NotBeNull();
-        dbArticle!.Tags.Should().Contain(t => t.Id == request.TagId && t.Group == request.Group);
+        dbArticle!.Tags.Should().Contain(t => t.Id == request.TagId);
     }
 }

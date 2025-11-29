@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Lowtab.Monster.Service.Contracts.GroupTags;
+namespace Lowtab.Monster.Service.Contracts.Tags.Common;
 
 /// <summary>
 ///     Группа тега

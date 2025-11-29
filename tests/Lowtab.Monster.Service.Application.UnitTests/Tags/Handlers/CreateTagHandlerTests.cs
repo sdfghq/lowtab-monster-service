@@ -33,8 +33,8 @@ public sealed class CreateTagHandlerTests : IDisposable, IAsyncDisposable
 
         // Assert
         result.Should().NotBeNull();
-        result.Id.Should().NotBeEmpty();
-        var dbEntity = await _context.Tags.FindAsync(result.Id, request.Group);
+        result.Id.Should().NotBe(default);
+        var dbEntity = await _context.Tags.FindAsync(result.Id);
         dbEntity.Should().NotBeNull().And.BeEquivalentTo(request, options => options.ExcludingMissingMembers());
     }
 }

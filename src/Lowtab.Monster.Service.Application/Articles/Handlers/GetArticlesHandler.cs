@@ -3,6 +3,7 @@ using Lowtab.Monster.Service.Application.Articles.Mappings;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Domain.Entities;
 using Mediator;
 using Microsoft.EntityFrameworkCore;
@@ -33,14 +34,23 @@ internal class GetArticlesHandler(IDbContext context) : IQueryHandler<GetArticle
             foreach (var tagFilter in request.TagFilter)
             {
                 var tagPredicate = PredicateBuilder.New<TagEntity>();
-                if (!string.IsNullOrEmpty(tagFilter.Tag))
-                {
-                    tagPredicate.And(x => x.Id.Equals(tagFilter.Tag));
-                }
 
-                if (tagFilter.Group.HasValue)
+                if (!string.IsNullOrEmpty(tagFilter.Tag) && tagFilter.Group.HasValue)
                 {
-                    tagPredicate.And(x => x.Group == tagFilter.Group.Value);
+                    var targetId = new TagId(tagFilter.Group.Value, tagFilter.Tag);
+                    tagPredicate.And(x => x.Id == targetId);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(tagFilter.Tag))
+                    {
+                        tagPredicate.And(x => x.Id.Id == tagFilter.Tag);
+                    }
+
+                    if (tagFilter.Group.HasValue)
+                    {
+                        tagPredicate.And(x => x.Id.Group == tagFilter.Group.Value);
+                    }
                 }
 
                 predicate.And(x => x.Tags!.Any(tagPredicate));

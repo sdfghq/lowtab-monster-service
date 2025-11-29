@@ -21,6 +21,6 @@ internal class CreateTagHandler(
         await context.SaveChangesAsync(ct);
 
         logger.LogInformation("Created new {@Object} with {Id}", result, result.Id);
-        return new CreateTagResponse { Id = result.Id, Group = result.Group };
+        return new CreateTagResponse { Id = result.Id };
     }
 }

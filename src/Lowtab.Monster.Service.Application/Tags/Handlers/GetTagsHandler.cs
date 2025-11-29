@@ -2,6 +2,7 @@ using LinqKit;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Tags.Mappings;
 using Lowtab.Monster.Service.Application.Tags.Queryes;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.GetTags;
 using Lowtab.Monster.Service.Domain.Entities;
 using Mediator;
@@ -19,7 +20,14 @@ internal class GetTagsHandler(IDbContext context) : IQueryHandler<GetTagsQuery, 
 
         if (request.IdFilter is not null)
         {
-            query = query.Where(x => x.Id == request.IdFilter);
+            if (TagId.TryParse(request.IdFilter, out var tagId))
+            {
+                query = query.Where(x => x.Id == tagId);
+            }
+            else
+            {
+                return new GetTagsResponse { TotalCount = total, TotalFound = 0, Items = [] };
+            }
         }
 
         if (request.GroupsFilter?.Count > 0)
@@ -27,7 +35,7 @@ internal class GetTagsHandler(IDbContext context) : IQueryHandler<GetTagsQuery, 
             var predicate = PredicateBuilder.New<TagEntity>();
             foreach (var group in request.GroupsFilter)
             {
-                predicate = predicate.Or(x => x.Group == group);
+                predicate = predicate.Or(x => x.Id.Group == group);
             }
 
             query = query.Where(predicate);

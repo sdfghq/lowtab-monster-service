@@ -1,4 +1,5 @@
 using Lowtab.Monster.Service.Application.Tags.Commands;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.GetTag;
 using Lowtab.Monster.Service.Domain.Entities;
 using Riok.Mapperly.Abstractions;
@@ -23,8 +24,11 @@ internal static partial class TagMapper
     public static partial IQueryable<GetTagResponse> ProjectToDto(this IQueryable<TagEntity> query);
 
     [MapperIgnoreTarget(nameof(TagEntity.Id))]
-    [MapperIgnoreTarget(nameof(TagEntity.Group))]
     [MapperIgnoreSource(nameof(TagEntity.Id))]
-    [MapperIgnoreSource(nameof(TagEntity.Group))]
     public static partial void CopyTo(this TagEntity source, TagEntity target);
+
+    private static TagId MapTagId(TagId source)
+    {
+        return source;
+    }
 }

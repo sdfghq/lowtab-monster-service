@@ -1,4 +1,3 @@
-using Lowtab.Monster.Service.Contracts.GroupTags;
 using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Sdf.Platform.EntityFrameworkCore.Abstractions;
 
@@ -12,12 +11,7 @@ public class TagEntity : ITrackedTime
     /// <summary>
     ///     Идентификатор тега
     /// </summary>
-    public required string Id { get; set; }
-
-    /// <summary>
-    ///     Группа
-    /// </summary>
-    public required GroupTagEnum Group { get; set; }
+    public required TagId Id { get; set; }
 
     /// <summary>
     ///     Описание

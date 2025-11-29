@@ -46,7 +46,7 @@ public sealed class GetTagHandlerTests : IDisposable, IAsyncDisposable
     {
         // Arrange
         var handler = new GetTagHandler(NullLogger<GetTagHandler>.Instance, _context);
-        var request = new GetTagQuery { Id = ExistingTag.Id, Group = ExistingTag.Group };
+        var request = new GetTagQuery { Id = ExistingTag.Id };
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);

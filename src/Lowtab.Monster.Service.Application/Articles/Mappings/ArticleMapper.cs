@@ -1,5 +1,6 @@
 using Lowtab.Monster.Service.Application.Articles.Commands;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticle;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Domain.Entities;
 using Riok.Mapperly.Abstractions;
 
@@ -25,5 +26,11 @@ internal static partial class ArticleMapper
 
     [MapperIgnoreTarget(nameof(ArticleEntity.Id))]
     [MapperIgnoreSource(nameof(ArticleEntity.Id))]
+    [MapperIgnoreTarget(nameof(ArticleEntity.Tags))] // Ignore Tags during update as command doesn't support it
     public static partial void CopyTo(this ArticleEntity source, ArticleEntity target);
+
+    private static TagId MapTagId(TagId source)
+    {
+        return source;
+    }
 }
