@@ -20,7 +20,9 @@ var app = builder.Build();
 app.UseRouting();
 app.UsePlatformWebDefaults();
 app.UseStaticFiles();
-app.MapWeatherForecastEndpoints();
+app.MapTagEndpoints();
+app.MapArticleEndpoints();
+app.MapGroupTagEndpoints();
 
 await app.RunAsync();
 

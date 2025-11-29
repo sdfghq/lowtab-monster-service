@@ -5,6 +5,8 @@ namespace Lowtab.Monster.Service.Application.Interfaces;
 
 public interface IDbContext
 {
-    DbSet<WeatherForecastEntity> WeatherForecasts { get; }
+    DbSet<GroupTagEntity> GroupTags { get; set; }
+    DbSet<TagEntity> Tags { get; set; }
+    DbSet<ArticleEntity> Articles { get; set; }
     Task<int> SaveChangesAsync(CancellationToken ct);
 }

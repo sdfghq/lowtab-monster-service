@@ -12,7 +12,9 @@ public class InternalDbContext(
     AuditableEntitySaveChangesInterceptor? auditableEntitySaveChangesInterceptor)
     : DbContext(options), IDbContext
 {
-    public DbSet<WeatherForecastEntity> WeatherForecasts { get; set; }
+    public DbSet<GroupTagEntity> GroupTags { get; set; }
+    public DbSet<TagEntity> Tags { get; set; }
+    public DbSet<ArticleEntity> Articles { get; set; }
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
