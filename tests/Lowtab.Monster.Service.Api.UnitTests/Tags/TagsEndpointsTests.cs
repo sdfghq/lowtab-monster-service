@@ -57,7 +57,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task CreateTag_Successfully()
     {
         // Arrange
-        var responseMock = new CreateTagResponse { Id = new TagId(GroupTagEnum.Map, Guid.NewGuid().ToString()) };
+        var responseMock = new CreateTagResponse { Id = new TagId(GroupTag.Map, Guid.NewGuid().ToString()) };
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<CreateTagCommand>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((CreateTagCommand _, CancellationToken _) => responseMock);
@@ -114,7 +114,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetTag_Successfully()
     {
         // Arrange
-        var request = new GetTagQuery { Id = new TagId(GroupTagEnum.Map, Guid.NewGuid().ToString()) };
+        var request = new GetTagQuery { Id = new TagId(GroupTag.Map, Guid.NewGuid().ToString()) };
         var responseMock = Arrange.GetValidGetTagResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<GetTagQuery>(), It.IsAny<CancellationToken>()))
@@ -149,7 +149,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{id}/{GroupTagEnum.Map}");
+        using var request = new HttpRequestMessage(HttpMethod.Get, $"/internal/v1/Tag/{id}/{GroupTag.Map}");
 
         // Act
         using var response = await client.SendAsync(request);
@@ -226,7 +226,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task DeleteTag_Successfully()
     {
         // Arrange
-        var request = new DeleteTagCommand { Id = new TagId(GroupTagEnum.Map, Guid.NewGuid().ToString()) };
+        var request = new DeleteTagCommand { Id = new TagId(GroupTag.Map, Guid.NewGuid().ToString()) };
         var responseMock = new DeleteTagResponse();
 
         _mediatorMock.Setup(x => x.Send(It.IsAny<DeleteTagCommand>(), It.IsAny<CancellationToken>()))
@@ -260,7 +260,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
 
         using var client = _factory.CreateClient();
 
-        using var request = new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{id}/{GroupTagEnum.Map}");
+        using var request = new HttpRequestMessage(HttpMethod.Delete, $"/internal/v1/Tag/{id}/{GroupTag.Map}");
 
         // Act
         using var response = await client.SendAsync(request);
@@ -278,7 +278,7 @@ public sealed class TagsEndpointsTests : IDisposable, IAsyncDisposable
     public async Task GetTags_Successfully()
     {
         // Arrange
-        var request = new GetTagsQuery { Offset = 0, Limit = 10, IdFilter = "testname", GroupsFilter = [] };
+        var request = new GetTagsQuery { Offset = 0, Limit = 10, Filter = "testname" };
 
         var responseMock = new GetTagsResponse
         {

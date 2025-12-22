@@ -10,15 +10,15 @@ namespace Lowtab.Monster.Service.Application.UnitTests.Tags;
 public static class Arrange
 {
     private static readonly Faker<CreateTagCommand> CreateReceiptCommandFaker = new Faker<CreateTagCommand>()
-        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTagEnum>(), f.Random.String2(10)))
+        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTag>(), f.Random.String2(10)))
         .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
     private static readonly Faker<UpdateTagCommand> UpdateReceiptCommandFaker = new Faker<UpdateTagCommand>()
-        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTagEnum>(), f.Random.String2(10)))
+        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTag>(), f.Random.String2(10)))
         .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
     private static readonly Faker<GetTagResponse> GetReceiptBaseResponseFaker = new Faker<GetTagResponse>()
-        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTagEnum>(), f.Random.String2(10)))
+        .RuleFor(x => x.Id, f => new TagId(f.PickRandom<GroupTag>(), f.Random.String2(10)))
         .RuleFor(x => x.Description, f => f.Lorem.Sentence());
 
     public static CreateTagCommand GetValidCreateTagCommand()

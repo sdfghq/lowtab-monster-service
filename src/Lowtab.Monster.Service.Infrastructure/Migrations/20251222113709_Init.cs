@@ -32,13 +32,14 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<string>(type: "text", nullable: false),
+                    group = table.Column<int>(type: "integer", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_tags", x => x.id);
+                    table.PrimaryKey("pk_tags", x => new { x.group, x.id });
                 });
 
             migrationBuilder.CreateTable(
@@ -46,11 +47,12 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                 columns: table => new
                 {
                     article_entity_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    tags_group = table.Column<int>(type: "integer", nullable: false),
                     tags_id = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_article_entity_tag_entity", x => new { x.article_entity_id, x.tags_id });
+                    table.PrimaryKey("pk_article_entity_tag_entity", x => new { x.article_entity_id, x.tags_group, x.tags_id });
                     table.ForeignKey(
                         name: "fk_article_entity_tag_entity_articles_article_entity_id",
                         column: x => x.article_entity_id,
@@ -58,17 +60,17 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_article_entity_tag_entity_tags_tags_id",
-                        column: x => x.tags_id,
+                        name: "fk_article_entity_tag_entity_tags_tags_group_tags_id",
+                        columns: x => new { x.tags_group, x.tags_id },
                         principalTable: "tags",
-                        principalColumn: "id",
+                        principalColumns: new[] { "group", "id" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ix_article_entity_tag_entity_tags_id",
+                name: "ix_article_entity_tag_entity_tags_group_tags_id",
                 table: "article_entity_tag_entity",
-                column: "tags_id");
+                columns: new[] { "tags_group", "tags_id" });
         }
 
         /// <inheritdoc />

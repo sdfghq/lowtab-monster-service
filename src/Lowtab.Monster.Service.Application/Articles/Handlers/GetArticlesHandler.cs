@@ -3,7 +3,6 @@ using Lowtab.Monster.Service.Application.Articles.Mappings;
 using Lowtab.Monster.Service.Application.Articles.Queryes;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Contracts.Articles.GetArticles;
-using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Domain.Entities;
 using Mediator;
 using Microsoft.EntityFrameworkCore;
@@ -14,56 +13,64 @@ internal class GetArticlesHandler(IDbContext context) : IQueryHandler<GetArticle
 {
     public async ValueTask<GetArticlesResponse> Handle(GetArticlesQuery request, CancellationToken ct)
     {
+        // Получаем общее количество статей до фильтрации
+        var total = await context.Articles.CountAsync(ct);
+
         var query = context.Articles
-            .Include(x => x.Tags)
             .AsNoTracking()
             .AsQueryable();
 
-        var total = await query.CountAsync(ct);
-
+        // Фильтрация по тексту (OR между заголовком и телом)
         if (request.TextFilter is not null)
         {
-            query = query.Where(x => x.Title.ToLower().Contains(request.TextFilter.ToLower()));
-            query = query.Where(x => x.Body.ToLower().Contains(request.TextFilter.ToLower()));
+            var searchText = request.TextFilter;
+            query = query.Where(x =>
+                EF.Functions.Like(x.Title, $"%{searchText}%") ||
+                EF.Functions.Like(x.Body, $"%{searchText}%"));
         }
 
+        // Фильтрация по тегам
         if (request.TagFilter?.Count > 0)
         {
-            var predicate = PredicateBuilder.New<ArticleEntity>();
+            var predicate = PredicateBuilder.New<TagEntity>();
 
-            foreach (var tagFilter in request.TagFilter)
+            foreach (var filter in request.TagFilter)
             {
-                var tagPredicate = PredicateBuilder.New<TagEntity>();
-
-                if (!string.IsNullOrEmpty(tagFilter.Tag) && tagFilter.Group.HasValue)
+                var localPredicate = PredicateBuilder.New<TagEntity>(true);
+                if (filter.Id is not null)
                 {
-                    var targetId = new TagId(tagFilter.Group.Value, tagFilter.Tag);
-                    tagPredicate.And(x => x.Id == targetId);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(tagFilter.Tag))
-                    {
-                        tagPredicate.And(x => x.Id.Id == tagFilter.Tag);
-                    }
-
-                    if (tagFilter.Group.HasValue)
-                    {
-                        tagPredicate.And(x => x.Id.Group == tagFilter.Group.Value);
-                    }
+                    localPredicate = localPredicate.And(x => x.Id.Contains(filter.Id));
                 }
 
-                predicate.And(x => x.Tags!.Any(tagPredicate));
+                if (filter.Group is not null)
+                {
+                    localPredicate = localPredicate.And(x => x.Group == filter.Group);
+                }
+
+                predicate = predicate.Or(localPredicate);
             }
 
-            query = query.Where(predicate);
+            var tags = context.Tags
+                .AsNoTracking()
+                .AsExpandableEFCore()
+                .Where(predicate);
+
+            query = from article in query
+                from tag in tags
+                where article.Tags.Contains(tag)
+                select article;
         }
 
+        // Подсчет отфильтрованных результатов
         var found = await query.CountAsync(ct);
 
-        var result = await query.ProjectToDto()
+        // Получение результатов с пагинацией
+        // Include добавляем только для финальной выборки
+        var result = await query
+            .Include(x => x.Tags)
             .Skip(request.Offset)
             .Take(request.Limit)
+            .ProjectToDto()
             .ToListAsync(ct);
 
         return new GetArticlesResponse { TotalCount = total, TotalFound = found, Items = result };

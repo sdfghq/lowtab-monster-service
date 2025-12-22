@@ -12,8 +12,9 @@ internal class DeleteTagHandler(IDbContext context) : ICommandHandler<DeleteTagC
     public async ValueTask<DeleteTagResponse> Handle(DeleteTagCommand request,
         CancellationToken ct)
     {
-        var entity = await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id, ct) ??
-                     throw new NotFoundException($"Не нашел объект с идентификатором {request.Id}");
+        var entity =
+            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id.Id && x.Group == request.Id.Group, ct) ??
+            throw new NotFoundException($"Не нашел объект с идентификатором {request.Id}");
 
         context.Tags.Remove(entity);
         await context.SaveChangesAsync(ct);

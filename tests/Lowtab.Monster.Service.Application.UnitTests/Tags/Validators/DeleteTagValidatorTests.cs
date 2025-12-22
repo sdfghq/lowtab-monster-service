@@ -13,7 +13,7 @@ public class DeleteTagValidatorTests
 
     public static IEnumerable<object[]> ValidData()
     {
-        yield return [new DeleteTagCommand { Id = new TagId(GroupTagEnum.Map, "test-id") }];
+        yield return [new DeleteTagCommand { Id = new TagId(GroupTag.Map, "test-id") }];
     }
 
     public static IEnumerable<object[]> InvalidData()

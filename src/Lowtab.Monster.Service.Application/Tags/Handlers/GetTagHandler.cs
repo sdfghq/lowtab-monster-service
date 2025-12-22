@@ -17,8 +17,9 @@ internal class GetTagHandler(
     public async ValueTask<GetTagResponse> Handle(GetTagQuery request, CancellationToken ct)
     {
         logger.LogInformation("Try getting {EntityId} from database", request.Id);
-        var entity = await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id, ct) ??
-                     throw new NotFoundException($"Не нашел объект с идентификатором {request.Id}");
+        var entity =
+            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id.Id && x.Group == request.Id.Group, ct) ??
+            throw new NotFoundException($"Не нашел объект с идентификатором {request.Id}");
         var result = TagMapper.ToDto(entity);
         return result;
     }

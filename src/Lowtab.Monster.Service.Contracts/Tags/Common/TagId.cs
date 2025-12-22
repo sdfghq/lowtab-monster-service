@@ -19,7 +19,7 @@ public readonly record struct TagId
     /// <param name="group"></param>
     /// <param name="id"></param>
     /// <exception cref="ArgumentException"></exception>
-    public TagId(GroupTagEnum group, string id)
+    public TagId(GroupTag group, string id)
     {
         if (string.IsNullOrWhiteSpace(id))
         {
@@ -38,7 +38,7 @@ public readonly record struct TagId
     /// <summary>
     ///     Группа тега
     /// </summary>
-    public GroupTagEnum Group { get; }
+    public GroupTag Group { get; }
 
     /// <summary>
     ///     Идентификатор тега
@@ -59,12 +59,7 @@ public readonly record struct TagId
     /// <exception cref="FormatException"></exception>
     public static TagId Parse(string value)
     {
-        if (TryParse(value, out var result))
-        {
-            return result;
-        }
-
-        throw new FormatException($"Invalid TagId format: {value}");
+        return TryParse(value, out var result) ? result : throw new FormatException($"Invalid TagId format: {value}");
     }
 
     /// <summary>
@@ -88,7 +83,7 @@ public readonly record struct TagId
             return false;
         }
 
-        if (!Enum.TryParse<GroupTagEnum>(parts[0], true, out var group))
+        if (!Enum.TryParse<GroupTag>(parts[0], true, out var group))
         {
             return false;
         }

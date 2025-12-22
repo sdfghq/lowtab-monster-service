@@ -1,7 +1,11 @@
 ﻿<Project>
+  <PropertyGroup>
+    <Microsoft_Version>10.0.1</Microsoft_Version>
+    <Platform_Web_Sdk_Version>2.0.3</Platform_Web_Sdk_Version>
+  </PropertyGroup>
   <ItemGroup Label="Build">
     <PackageVersion Include="Sdf.Platform.Build.Sdk" Version="1.2.0"/>
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.13.1"/>
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.15.0"/>
     <PackageVersion Include="AsyncFixer" Version="1.6.0"/>
     <PackageVersion Include="ReflectionAnalyzers" Version="0.3.1"/>
     <PackageVersion Include="AspNetCoreAnalyzers" Version="0.3.0"/>
@@ -9,42 +13,41 @@
     <PackageVersion Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15"/>
   </ItemGroup>
   <ItemGroup Label="Client">
-    <PackageVersion Include="Sdf.Platform.Client.Sdk" Version="1.1.0"/>
-    <PackageVersion Include="Sdf.Platform.Versioning.Contracts" Version="1.1.0"/>
+    <PackageVersion Include="Sdf.Platform.Client.Sdk" Version="$(Platform_Web_Sdk_Version)"/>
+    <PackageVersion Include="Sdf.Platform.Versioning.Contracts" Version="$(Platform_Web_Sdk_Version)"/>
   </ItemGroup>
   <ItemGroup Label="Api">
-    <PackageVersion Include="Sdf.Platform.Web.Sdk" Version="1.1.0"/>
+    <PackageVersion Include="Sdf.Platform.Web.Sdk" Version="$(Platform_Web_Sdk_Version)"/>
   </ItemGroup>
   <ItemGroup Label="Application">
-    <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7"/>
-    <PackageVersion Include="Sdf.Platform.Mediator" Version="1.0.0"/>
-    <PackageVersion Include="Riok.Mapperly" Version="4.2.1"/>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.7"/>
-    <PackageVersion Include="Sdf.Platform.EntityFrameworkCore.Abstractions" Version="1.1.0"/>
-    <PackageVersion Include="LinqKit.Microsoft.EntityFrameworkCore" Version="8.1.9"/>
+    <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.1"/>
+    <PackageVersion Include="Sdf.Platform.Mediator" Version="2.0.0"/>
+    <PackageVersion Include="Riok.Mapperly" Version="4.3.0"/>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(Microsoft_Version)"/>
+    <PackageVersion Include="Sdf.Platform.EntityFrameworkCore.Abstractions" Version="2.0.0"/>
+    <PackageVersion Include="LinqKit.Microsoft.EntityFrameworkCore" Version="10.0.9"/>
   </ItemGroup>
   <ItemGroup Label="Infrastructure">
-    <PackageVersion Include="Sdf.Platform.Observability.Common" Version="1.0.0"/>
-    <PackageVersion Include="Sdf.Platform.Redis" Version="1.0.1"/>
-    <PackageVersion Include="Sdf.Platform.EntityFrameworkCore.Postgresql" Version="1.1.0"/>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6"/>
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.7"/>
+    <PackageVersion Include="Sdf.Platform.Observability" Version="2.0.0"/>
+    <PackageVersion Include="Sdf.Platform.Observability.Common" Version="2.0.0"/>
+    <PackageVersion Include="Sdf.Platform.Redis" Version="2.0.0"/>
+    <PackageVersion Include="Sdf.Platform.EntityFrameworkCore.Postgresql" Version="2.0.0"/>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(Microsoft_Version)"/>
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="$(Microsoft_Version)"/>
   </ItemGroup>
   <ItemGroup Label="Tests">
     <PackageVersion Include="Moq" Version="4.20.72"/>
     <PackageVersion Include="FluentAssertions" Version="[7.1.0]"/>
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1"/>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
     <PackageVersion Include="xunit" Version="2.9.3"/>
-    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageVersion>
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5"/>
     <PackageVersion Include="coverlet.collector" Version="6.0.4"/>
     <PackageVersion Include="RichardSzalay.MockHttp" Version="7.0.0"/>
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.18"/>
-    <PackageVersion Include="Sdf.Platform.Redis.Testing" Version="1.0.0"/>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6"/>
-    <PackageVersion Include="Bogus" Version="35.6.3"/>
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(Microsoft_Version)"/>
+    <PackageVersion Include="Sdf.Platform.Redis.Testing" Version="2.0.0"/>
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(Microsoft_Version)"/>
+    <PackageVersion Include="Bogus" Version="35.6.5"/>
     <PackageVersion Include="DeepEqual" Version="5.1.0"/>
+    <PackageVersion Include="Serilog.Sinks.XUnit" Version="3.0.19"/>
   </ItemGroup>
 </Project>

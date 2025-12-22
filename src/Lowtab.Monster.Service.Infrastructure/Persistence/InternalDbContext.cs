@@ -20,6 +20,7 @@ public class InternalDbContext(
     {
         ArgumentNullException.ThrowIfNull(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         base.OnModelCreating(modelBuilder);
     }
 

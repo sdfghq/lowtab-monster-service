@@ -49,12 +49,12 @@ internal static class TagsEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(UpdateTagResponse), (int)HttpStatusCode.OK)]
     private static async Task<UpdateTagResponse> UpdateTag(
-        [FromRoute] string id, [FromRoute] GroupTagEnum group, [FromBody] UpdateTagRequest request,
+        [FromRoute] TagId id,
+        [FromBody] UpdateTagRequest request,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
-            await mediator.Send(new UpdateTagCommand { Id = new TagId(group, id), Description = request.Description },
-                ct);
+            await mediator.Send(new UpdateTagCommand { Id = id, Description = request.Description }, ct);
         return result;
     }
 
@@ -62,11 +62,11 @@ internal static class TagsEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(CreateTagResponse), (int)HttpStatusCode.OK)]
-    private static async Task<GetTagResponse> GetTag([FromRoute] string id, [FromRoute] GroupTagEnum group,
+    private static async Task<GetTagResponse> GetTag([FromRoute] TagId id,
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new GetTagQuery { Id = new TagId(group, id) }, ct);
+        var result = await mediator.Send(new GetTagQuery { Id = id }, ct);
         return result;
     }
 
@@ -75,15 +75,12 @@ internal static class TagsEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(GetTagsResponse), (int)HttpStatusCode.OK)]
     private static async Task<GetTagsResponse> GetTags([AsParameters] GetTagsRequest request,
-        [FromQuery] string? idFilter, [FromQuery] GroupTagEnum[]? groupsFilter,
+        [FromQuery] TagIdFilter[]? idFilters,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
             await mediator.Send(
-                new GetTagsQuery
-                {
-                    IdFilter = idFilter, GroupsFilter = groupsFilter, Offset = request.Offset, Limit = request.Limit
-                }, ct);
+                new GetTagsQuery { IdFilter = idFilters, Offset = request.Offset, Limit = request.Limit }, ct);
 
         return result;
     }
@@ -92,11 +89,10 @@ internal static class TagsEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(DeleteTagResponse), (int)HttpStatusCode.OK)]
-    private static async Task<DeleteTagResponse> DeleteTag([FromRoute] string id, [FromRoute] GroupTagEnum group,
-        [FromServices] ISender mediator,
+    private static async Task<DeleteTagResponse> DeleteTag([FromRoute] TagId id, [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new DeleteTagCommand { Id = new TagId(group, id) }, ct);
+        var result = await mediator.Send(new DeleteTagCommand { Id = id }, ct);
         return result;
     }
 }

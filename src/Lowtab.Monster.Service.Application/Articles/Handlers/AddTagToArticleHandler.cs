@@ -17,10 +17,11 @@ internal class AddTagToArticleHandler(IDbContext context)
                           .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
                       ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
 
-        var tag = await context.Tags.FindAsync([request.TagId], ct)
+        var tag = await context.Tags.FirstOrDefaultAsync(
+                      x => x.Id == request.TagId.Id && x.Group == request.TagId.Group, ct)
                   ?? throw new NotFoundException($"Tag with id {request.TagId} not found");
 
-        if (article.Tags.Any(t => t.Id == tag.Id))
+        if (article.Tags.Any(t => t.Id == tag.Id && t.Group == tag.Group))
         {
             return new AddTagToArticleResponse();
         }

@@ -12,10 +12,12 @@ internal static partial class ArticleMapper
     [MapperIgnoreTarget(nameof(ArticleEntity.Id))]
     [MapperIgnoreTarget(nameof(ArticleEntity.CreatedAt))]
     [MapperIgnoreTarget(nameof(ArticleEntity.UpdatedAt))]
+    [MapperIgnoreTarget(nameof(ArticleEntity.Tags))]
     public static partial ArticleEntity ToEntity(this CreateArticleCommand command);
 
     [MapperIgnoreTarget(nameof(ArticleEntity.CreatedAt))]
     [MapperIgnoreTarget(nameof(ArticleEntity.UpdatedAt))]
+    [MapperIgnoreTarget(nameof(ArticleEntity.Tags))]
     public static partial ArticleEntity ToEntity(this UpdateArticleCommand command);
 
     [MapperIgnoreSource(nameof(ArticleEntity.CreatedAt))]
@@ -26,11 +28,16 @@ internal static partial class ArticleMapper
 
     [MapperIgnoreTarget(nameof(ArticleEntity.Id))]
     [MapperIgnoreSource(nameof(ArticleEntity.Id))]
-    [MapperIgnoreTarget(nameof(ArticleEntity.Tags))] // Ignore Tags during update as command doesn't support it
+    [MapperIgnoreSource(nameof(ArticleEntity.Tags))]
+    [MapperIgnoreTarget(nameof(ArticleEntity.Tags))]
     public static partial void CopyTo(this ArticleEntity source, ArticleEntity target);
 
-    private static TagId MapTagId(TagId source)
+    [MapProperty(nameof(entity), nameof(Tag.Id), Use = nameof(MapToTagId))]
+    private static partial Tag ToTagDto(TagEntity entity);
+
+    [UserMapping]
+    private static TagId MapToTagId(TagEntity source)
     {
-        return source;
+        return new TagId(source.Group, source.Id);
     }
 }

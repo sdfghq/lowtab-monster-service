@@ -27,7 +27,7 @@ public class TagIdSerializationTests
         var result = JsonSerializer.Deserialize<TagId>(json, _options);
 
         // Assert
-        result.Group.Should().Be(GroupTagEnum.Map);
+        result.Group.Should().Be(GroupTag.Map);
         result.Id.Should().Be("Dust2");
     }
 
@@ -46,7 +46,7 @@ public class TagIdSerializationTests
         var result = JsonSerializer.Deserialize<TagId>(json, _options);
 
         // Assert
-        result.Group.Should().Be(GroupTagEnum.Map);
+        result.Group.Should().Be(GroupTag.Map);
         result.Id.Should().Be("Dust2");
     }
 
@@ -65,7 +65,7 @@ public class TagIdSerializationTests
         var result = JsonSerializer.Deserialize<TagId>(json, _options);
 
         // Assert
-        result.Group.Should().Be(GroupTagEnum.Map);
+        result.Group.Should().Be(GroupTag.Map);
         result.Id.Should().Be("Dust2");
     }
 
@@ -85,7 +85,7 @@ public class TagIdSerializationTests
         var result = JsonSerializer.Deserialize<TagId>(json, _options);
 
         // Assert
-        result.Group.Should().Be(GroupTagEnum.Map);
+        result.Group.Should().Be(GroupTag.Map);
         result.Id.Should().Be("Dust2");
     }
 
@@ -93,7 +93,7 @@ public class TagIdSerializationTests
     public void Serialize_ReturnsString()
     {
         // Arrange
-        var tagId = new TagId(GroupTagEnum.Map, "Dust2");
+        var tagId = new TagId(GroupTag.Map, "Dust2");
 
         // Act
         var json = JsonSerializer.Serialize(tagId, _options);

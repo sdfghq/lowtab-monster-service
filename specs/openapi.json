@@ -59,7 +59,7 @@
         }
       }
     },
-    "/internal/v1/tag/{id}/{group}": {
+    "/internal/v1/tag/{id}": {
       "get": {
         "tags": [
           "Tags internal methods"
@@ -74,15 +74,6 @@
               "type": "string"
             },
             "x-position": 1
-          },
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GroupTagEnum"
-            },
-            "x-position": 2
           }
         ],
         "responses": {
@@ -142,15 +133,6 @@
               "type": "string"
             },
             "x-position": 1
-          },
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GroupTagEnum"
-            },
-            "x-position": 2
           }
         ],
         "requestBody": {
@@ -163,7 +145,7 @@
             }
           },
           "required": true,
-          "x-position": 3
+          "x-position": 2
         },
         "responses": {
           "200": {
@@ -212,15 +194,6 @@
               "type": "string"
             },
             "x-position": 1
-          },
-          {
-            "name": "group",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/GroupTagEnum"
-            },
-            "x-position": 2
           }
         ],
         "responses": {
@@ -278,6 +251,7 @@
             "name": "offset",
             "in": "path",
             "required": true,
+            "description": "Отступ от начала списка\n            ",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -288,6 +262,7 @@
             "name": "limit",
             "in": "path",
             "required": true,
+            "description": "Количество элементов в списке\n            ",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -295,16 +270,7 @@
             "x-position": 2
           },
           {
-            "name": "idFilter",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 3
-          },
-          {
-            "name": "groupsFilter",
+            "name": "idFilters",
             "in": "query",
             "style": "form",
             "explode": true,
@@ -312,10 +278,10 @@
               "type": "array",
               "nullable": true,
               "items": {
-                "$ref": "#/components/schemas/GroupTagEnum"
+                "type": "string"
               }
             },
-            "x-position": 4
+            "x-position": 3
           }
         ],
         "responses": {
@@ -609,6 +575,7 @@
             "name": "offset",
             "in": "path",
             "required": true,
+            "description": "Отступ от начала списка\n            ",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -619,11 +586,26 @@
             "name": "limit",
             "in": "path",
             "required": true,
+            "description": "Количество элементов в списке\n            ",
             "schema": {
               "type": "integer",
               "format": "int32"
             },
             "x-position": 2
+          },
+          {
+            "name": "tagFilter",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 3
           },
           {
             "name": "textFilter",
@@ -632,7 +614,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 4
           }
         ],
         "responses": {
@@ -679,7 +661,7 @@
         }
       }
     },
-    "/internal/v1/article/{id}/tag/{tag}": {
+    "/internal/v1/article/{id}/tag/{tagId}": {
       "put": {
         "tags": [
           "Articles internal methods"
@@ -697,11 +679,11 @@
             "x-position": 1
           },
           {
-            "name": "tag",
+            "name": "tagId",
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/TagId"
+              "type": "string"
             },
             "x-position": 2
           }
@@ -766,11 +748,11 @@
             "x-position": 1
           },
           {
-            "name": "tag",
+            "name": "tagId",
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/TagId"
+              "type": "string"
             },
             "x-position": 2
           }
@@ -828,65 +810,10 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "description": "Идентификатор\n            ",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/TagId"
-              }
-            ]
-          }
-        }
-      },
-      "TagId": {
-        "type": "object",
-        "description": "Композитный идентификатор тега\n            ",
-        "additionalProperties": false,
-        "properties": {
-          "group": {
-            "description": "Группа тега\n            ",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/GroupTagEnum"
-              }
-            ]
-          },
-          "id": {
             "type": "string",
-            "description": "Идентификатор тега\n            "
+            "description": "Идентификатор\n            "
           }
         }
-      },
-      "GroupTagEnum": {
-        "type": "string",
-        "description": "Группа тега\n            ",
-        "x-enum-names": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "x-enum-varnames": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "x-enumNames": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ],
-        "enum": [
-          "Map",
-          "Side",
-          "Grenade",
-          "DestinationPoint",
-          "StartPoint"
-        ]
       },
       "ProblemDetails": {
         "type": "object",
@@ -940,12 +867,8 @@
             "additionalProperties": false,
             "properties": {
               "id": {
-                "description": "Идентификатор тега\n            ",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/TagId"
-                  }
-                ]
+                "type": "string",
+                "description": "Идентификатор тега\n            "
               }
             }
           }

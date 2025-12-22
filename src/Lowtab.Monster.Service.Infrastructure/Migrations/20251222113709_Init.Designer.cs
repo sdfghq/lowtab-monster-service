@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lowtab.Monster.Service.Infrastructure.Migrations
 {
     [DbContext(typeof(InternalDbContext))]
-    [Migration("20251129192144_Init")]
+    [Migration("20251222113709_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "10.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -31,15 +31,19 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("article_entity_id");
 
+                    b.Property<int>("TagsGroup")
+                        .HasColumnType("integer")
+                        .HasColumnName("tags_group");
+
                     b.Property<string>("TagsId")
                         .HasColumnType("text")
                         .HasColumnName("tags_id");
 
-                    b.HasKey("ArticleEntityId", "TagsId")
+                    b.HasKey("ArticleEntityId", "TagsGroup", "TagsId")
                         .HasName("pk_article_entity_tag_entity");
 
-                    b.HasIndex("TagsId")
-                        .HasDatabaseName("ix_article_entity_tag_entity_tags_id");
+                    b.HasIndex("TagsGroup", "TagsId")
+                        .HasDatabaseName("ix_article_entity_tag_entity_tags_group_tags_id");
 
                     b.ToTable("article_entity_tag_entity", (string)null);
                 });
@@ -81,6 +85,10 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
 
             modelBuilder.Entity("Lowtab.Monster.Service.Domain.Entities.TagEntity", b =>
                 {
+                    b.Property<int>("Group")
+                        .HasColumnType("integer")
+                        .HasColumnName("group");
+
                     b.Property<string>("Id")
                         .HasColumnType("text")
                         .HasColumnName("id");
@@ -97,7 +105,7 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.HasKey("Id")
+                    b.HasKey("Group", "Id")
                         .HasName("pk_tags");
 
                     b.ToTable("tags", (string)null);
@@ -114,10 +122,10 @@ namespace Lowtab.Monster.Service.Infrastructure.Migrations
 
                     b.HasOne("Lowtab.Monster.Service.Domain.Entities.TagEntity", null)
                         .WithMany()
-                        .HasForeignKey("TagsId")
+                        .HasForeignKey("TagsGroup", "TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_article_entity_tag_entity_tags_tags_id");
+                        .HasConstraintName("fk_article_entity_tag_entity_tags_tags_group_tags_id");
                 });
 #pragma warning restore 612, 618
         }

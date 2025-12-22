@@ -6,5 +6,5 @@ public record Tag : TagBase
     /// <summary>
     ///     Идентификатор тега
     /// </summary>
-    public required TagId Id { get; set; }
+    public required TagId Id { get; init; }
 }

@@ -11,7 +11,12 @@ public class TagEntity : ITrackedTime
     /// <summary>
     ///     Идентификатор тега
     /// </summary>
-    public required TagId Id { get; set; }
+    public required string Id { get; set; }
+
+    /// <summary>
+    ///     Группа тега
+    /// </summary>
+    public required GroupTag Group { get; set; }
 
     /// <summary>
     ///     Описание

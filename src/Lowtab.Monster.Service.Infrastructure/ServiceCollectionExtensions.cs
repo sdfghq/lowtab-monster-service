@@ -1,8 +1,10 @@
 ﻿using Lowtab.Monster.Service.Application.Interfaces;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Sdf.Platform.EntityFrameworkCore.Interceptors;
 using Sdf.Platform.EntityFrameworkCore.Postgresql;
 using Sdf.Platform.EntityFrameworkCore.Postgresql.Extensions;
@@ -26,12 +28,16 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<InternalDbContext>((_, options) =>
         {
-            options.UseNpgsql(configuration.GetConnectionString(Constants.ConnectionStringName), b =>
+            var dataSourceBuilder =
+                new NpgsqlDataSourceBuilder(configuration.GetConnectionString(Constants.ConnectionStringName));
+            dataSourceBuilder.MapEnum<GroupTag>();
+            dataSourceBuilder.MapComposite<TagId>();
+
+            options.UseNpgsql(dataSourceBuilder.Build(), b =>
                 {
                     b.SetPostgresVersion(15, 0);
                     b.MigrationsAssembly(typeof(InternalDbContext).Assembly.FullName);
                     b.EnableRetryOnFailure();
-                    // b.MapEnum<GroupTagEnum>("tag_group");
                 })
                 .UseSnakeCaseNamingConvention()
                 .EnableSensitiveDataLogging();

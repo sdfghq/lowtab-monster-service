@@ -20,8 +20,8 @@ internal class UpdateTagHandler(
 
         logger.LogInformation("Try update {@Entity} in database", newEntity);
         var updatedEntity =
-            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id, ct) ??
-            throw new NotFoundException($"Не нашел объект с идентификатором {newEntity.Id}");
+            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.Id.Id && x.Group == request.Id.Group, ct) ??
+            throw new NotFoundException($"Не нашел объект с идентификатором {request.Id}");
 
         newEntity.CopyTo(updatedEntity);
 

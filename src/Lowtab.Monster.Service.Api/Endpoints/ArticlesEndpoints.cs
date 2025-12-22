@@ -42,11 +42,12 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(AddTagToArticleResponse), (int)HttpStatusCode.OK)]
     private static async Task<AddTagToArticleResponse> AddTagToArticle(
         [FromRoute] Guid id,
-        [FromRoute] TagId tag,
+        [FromRoute] TagId tagId,
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new AddTagToArticleCommand { ArticleId = id, TagId = tag }, ct);
+        var result = await mediator.Send(new AddTagToArticleCommand { ArticleId = id, TagId = tagId },
+            ct);
         return result;
     }
 
@@ -56,11 +57,13 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(DeleteTagFromArticleResponse), (int)HttpStatusCode.OK)]
     private static async Task<DeleteTagFromArticleResponse> DeleteTagFromArticle(
         [FromRoute] Guid id,
-        [FromRoute] TagId tag,
+        [FromRoute] TagId tagId,
         [FromServices] ISender mediator,
         CancellationToken ct = default)
     {
-        var result = await mediator.Send(new DeleteTagFromArticleCommand { ArticleId = id, TagId = tag }, ct);
+        var result =
+            await mediator.Send(new DeleteTagFromArticleCommand { ArticleId = id, TagId = tagId },
+                ct);
         return result;
     }
 
@@ -111,19 +114,14 @@ internal static class ArticlesEndpoints
     [ProducesResponseType(typeof(ProblemDetails), (int)HttpStatusCode.InternalServerError)]
     [ProducesResponseType(typeof(GetArticlesResponse), (int)HttpStatusCode.OK)]
     private static async Task<GetArticlesResponse> GetArticles(
-        [AsParameters] GetArticlesRequest request,
-        [FromQuery] string? textFilter,
-        //[FromQuery] TagFilter[]? tagFilter,
+        [AsParameters] GetArticlesRequest request, [FromQuery] TagIdFilter[]? tagFilter, [FromQuery] string? textFilter,
         [FromServices] ISender mediator, CancellationToken ct = default)
     {
         var result =
             await mediator.Send(
                 new GetArticlesQuery
                 {
-                    TextFilter = textFilter,
-                    //TagFilter = tagFilter,
-                    Offset = request.Offset,
-                    Limit = request.Limit
+                    TextFilter = textFilter, TagFilter = tagFilter, Offset = request.Offset, Limit = request.Limit
                 }, ct);
 
         return result;

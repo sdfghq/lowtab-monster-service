@@ -18,14 +18,15 @@ internal class DeleteTagFromArticleHandler(IDbContext context)
                           .FirstOrDefaultAsync(x => x.Id == request.ArticleId, ct)
                       ?? throw new NotFoundException($"Article with id {request.ArticleId} not found");
 
-        var tagToRemove = article.Tags?.FirstOrDefault(t => t.Id == request.TagId);
+        var tagToRemove =
+            await context.Tags.FirstOrDefaultAsync(x => x.Id == request.TagId.Id && x.Group == request.TagId.Group, ct);
 
         if (tagToRemove == null)
         {
             return new DeleteTagFromArticleResponse();
         }
 
-        article.Tags!.Remove(tagToRemove);
+        article.Tags.Remove(tagToRemove);
         await context.SaveChangesAsync(ct);
 
         return new DeleteTagFromArticleResponse();

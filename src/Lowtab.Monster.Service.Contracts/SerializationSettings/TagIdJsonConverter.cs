@@ -10,32 +10,36 @@ public class TagIdJsonConverter : JsonConverter<TagId>
     /// <inheritdoc />
     public override TagId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.TokenType == JsonTokenType.String)
+        switch (reader.TokenType)
         {
-            var value = reader.GetString();
-            return TagId.Parse(value!);
-        }
-
-        if (reader.TokenType == JsonTokenType.StartObject)
-        {
-            GroupTagEnum group = default;
-            string? id = null;
-
-            while (reader.Read())
+            case JsonTokenType.String:
             {
-                if (reader.TokenType == JsonTokenType.EndObject)
-                {
-                    break;
-                }
+                var value = reader.GetString();
+                return TagId.Parse(value!);
+            }
+            case JsonTokenType.StartObject:
+            {
+                GroupTag group = default;
+                string? id = null;
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                while (reader.Read())
                 {
+                    if (reader.TokenType == JsonTokenType.EndObject)
+                    {
+                        break;
+                    }
+
+                    if (reader.TokenType != JsonTokenType.PropertyName)
+                    {
+                        continue;
+                    }
+
                     var propertyName = reader.GetString();
                     reader.Read();
 
                     if (string.Equals(propertyName, "group", StringComparison.OrdinalIgnoreCase))
                     {
-                        group = JsonSerializer.Deserialize<GroupTagEnum>(ref reader, options);
+                        group = JsonSerializer.Deserialize<GroupTag>(ref reader, options);
                     }
                     else if (string.Equals(propertyName, "id", StringComparison.OrdinalIgnoreCase))
                     {
@@ -46,12 +50,11 @@ public class TagIdJsonConverter : JsonConverter<TagId>
                         reader.Skip();
                     }
                 }
+
+                return new TagId(group, id!);
             }
-
-            return new TagId(group, id!);
+            default: throw new JsonException($"Unexpected token type {reader.TokenType}");
         }
-
-        throw new JsonException($"Unexpected token type {reader.TokenType}");
     }
 
     /// <inheritdoc />

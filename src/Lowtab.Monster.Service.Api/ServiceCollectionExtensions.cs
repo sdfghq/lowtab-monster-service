@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
             options.StatusCodeDelegate = exception => exception switch
             {
                 NotFoundException => (StatusCodes.Status404NotFound, "Not found"),
-                ValidationException => (StatusCodes.Status400BadRequest, "Bad request"),
+                ValidationException or FormatException => (StatusCodes.Status400BadRequest, "Bad request"),
                 _ => oldStatusCodeDelegate.Invoke(exception)
             };
         });

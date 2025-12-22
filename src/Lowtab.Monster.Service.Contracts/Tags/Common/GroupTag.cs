@@ -6,11 +6,12 @@ namespace Lowtab.Monster.Service.Contracts.Tags.Common;
 ///     Группа тега
 /// </summary>
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum GroupTagEnum
+public enum GroupTag
 {
+    None = 0,
     Map = 1,
     Side = 2,
     Grenade = 3,
-    DestinationPoint = 4,
-    StartPoint = 5
+    StartPoint = 4,
+    DestinationPoint = 5
 }

@@ -13,7 +13,7 @@ public class GetTagValidatorTests
 
     public static IEnumerable<object[]> ValidData()
     {
-        yield return [new GetTagQuery { Id = new TagId(GroupTagEnum.Map, "test-id") }];
+        yield return [new GetTagQuery { Id = new TagId(GroupTag.Map, "test-id") }];
     }
 
     public static IEnumerable<object[]> InvalidData()

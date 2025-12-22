@@ -9,7 +9,5 @@ namespace Lowtab.Monster.Service.Application.Tags.Queryes;
 /// </summary>
 public record GetTagsQuery : GetTagsRequest, IQuery<GetTagsResponse>
 {
-    public IReadOnlyCollection<GroupTagEnum>? GroupsFilter { get; init; }
-
-    public string? IdFilter { get; init; }
+    public IReadOnlyCollection<TagIdFilter>? IdFilter { get; init; }
 }

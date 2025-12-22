@@ -1,6 +1,7 @@
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Application.Tags.Commands;
 using Lowtab.Monster.Service.Application.Tags.Mappings;
+using Lowtab.Monster.Service.Contracts.Tags.Common;
 using Lowtab.Monster.Service.Contracts.Tags.CreateTag;
 using Mediator;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,6 @@ internal class CreateTagHandler(
         await context.SaveChangesAsync(ct);
 
         logger.LogInformation("Created new {@Object} with {Id}", result, result.Id);
-        return new CreateTagResponse { Id = result.Id };
+        return new CreateTagResponse { Id = new TagId(result.Group, result.Id) };
     }
 }

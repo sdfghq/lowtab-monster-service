@@ -24,6 +24,7 @@ public static class SerializerSettings
         serializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         serializerOptions.Converters.Add(new JsonStringEnumConverter());
         serializerOptions.Converters.Add(new TagIdJsonConverter());
+        serializerOptions.Converters.Add(new TagIdFilterJsonConverter());
         serializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         serializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
         return serializerOptions;
