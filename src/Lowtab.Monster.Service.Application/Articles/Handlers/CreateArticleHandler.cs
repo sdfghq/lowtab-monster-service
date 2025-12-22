@@ -1,4 +1,5 @@
 using Lowtab.Monster.Service.Application.Articles.Commands;
+using Lowtab.Monster.Service.Application.Articles.Mappings;
 using Lowtab.Monster.Service.Application.Interfaces;
 using Lowtab.Monster.Service.Contracts.Articles.CreateArticle;
 using Mediator;
